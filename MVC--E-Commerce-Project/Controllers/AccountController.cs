@@ -59,7 +59,52 @@ namespace MVC__E_Commerce_Project.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public IActionResult Login()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return NotFound();
+            }
 
+            return View();
+        }
+
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Login(LoginVM login)
+        {
+            if (!ModelState.IsValid) return View();
+
+            AppUser dbUser = await _userManager.FindByNameAsync(login.UserName);
+
+            if (dbUser == null)
+            {
+                ModelState.AddModelError("", "Username or Password invalid");
+                return View();
+            }
+
+            var signInResult = await _signInManager.PasswordSignInAsync(dbUser, login.Password, true, true);
+
+            if (!signInResult.Succeeded)
+            {
+                ModelState.AddModelError("", "Username or Password invalid");
+                return View();
+            }
+
+            //var roles = await _userManager.GetRolesAsync(dbUser);
+            //if (roles[0] == "Admin")
+            //{
+            //    return RedirectToAction("Index", "Dashboard", new { area = "AdminArea" });
+            //}
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
     }
 }
