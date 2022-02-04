@@ -20,5 +20,6 @@ namespace MVC__E_Commerce_Project.DAL
         public DbSet<Service> Services { get; set; }
         public DbSet<Subscribe> Subscribes { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
+
     }
 }

@@ -1,0 +1,47 @@
+﻿@model CompanySliderServiceVM
+
+<!--====== Brand Part Start ======-->
+
+<div class="brand-area pt-80">
+    <div class="container-fluid custom-container">
+        <div class="row brand-active">
+            @foreach (var item in Model.CompanySliders)
+            {
+                <div class="col-lg-2">
+                    <div class="single-brand">
+                        <a href="#">
+                            <img src="~/assets/images/brand/@item.ImageUrl" alt="brand">
+                        </a>
+                    </div>
+                    <!-- single brand -->
+                </div>
+            }
+
+        </div> <!-- row -->
+    </div> <!-- container -->
+</div>
+
+<!--====== Brand Part Ends ======-->
+<!--====== Features Banner Part Start ======-->
+
+<section class="features-banner-area pt-80 pb-100">
+    <div class="container-fluid custom-container">
+        <div class="features-banner-wrapper d-flex flex-wrap">
+            @foreach (var item in Model.Services)
+            {
+                <div class="single-features-banner d-flex">
+                    <div class="banner-icon">
+                        <img src="assets/images/banner-icon/@item.ImageUrl" alt="Icon">
+                    </div>
+                    <div class="banner-content media-body">
+                        <h3 class="banner-title">@item.Title</h3>
+                        <p>@item.Description</p>
+                    </div>
+                </div> <!-- single features banner -->
+            }
+
+        </div> <!-- features banner wrapper -->
+    </div> <!-- container -->
+</section>
+
+<!--====== Features Banner Part Ends ======-->
