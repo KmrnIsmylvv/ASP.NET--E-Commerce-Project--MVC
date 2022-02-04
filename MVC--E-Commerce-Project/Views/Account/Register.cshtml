@@ -1,0 +1,96 @@
+﻿@model RegisterVM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Majestic Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/assets/admin/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/assets/admin/vendors/base/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/assets/admin/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/assets/admin/images/favicon.png" />
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth px-0">
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-4 mx-auto">
+                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                            <div class="brand-logo">
+                                <img src="~/assets/images/logo.png" alt="logo">
+                            </div>
+                            <h4>New here?</h4>
+                            <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
+
+                            <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+                            <form class="pt-3" method="post">
+                                <div class="form-group">
+                                    <input asp-for="FullName" class="form-control form-control-lg" placeholder="Fullname"><br />
+                                    <span asp-validation-for="FullName" class="text text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="UserName" class="form-control form-control-lg" placeholder="Username"><br />
+                                    <span asp-validation-for="UserName" class="text text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Email" class="form-control form-control-lg" placeholder="Email"><br />
+                                    <span asp-validation-for="Email" class="text text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="Password" class="form-control form-control-lg" placeholder="Password"><br />
+                                    <span asp-validation-for="Password" class="text text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input asp-for="ConfirmPassword" class="form-control form-control-lg" placeholder="Confirm Password"><br />
+                                    <span asp-validation-for="ConfirmPassword" class="text text-danger"></span>
+                                </div>
+
+                                <div class="mb-2 mt-3">
+                                    <button type="submit" class="btn btn-block btn btn-outline-primary auth-form-btn">
+                                        Register
+                                    </button>
+                                </div>
+
+                                <div class="text-center mt-4 font-weight-light">
+                                    Already have an account? <a asp-controller="Account" asp-action="Login" class="text-primary">Login</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="~/assets/admin/vendors/base/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="~/assets/admin/js/off-canvas.js"></script>
+    <script src="~/assets/admin/js/hoverable-collapse.js"></script>
+    <script src="~/assets/admin/js/template.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- endinject -->
+</body>
+
+</html>
+
+

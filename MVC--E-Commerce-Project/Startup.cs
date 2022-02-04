@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVC__E_Commerce_Project.DAL;
+using MVC__E_Commerce_Project.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,19 @@ namespace MVC__E_Commerce_Project
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<AppUser, IdentityRole>(opt =>
+            {
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequiredLength = 7;
+                opt.Password.RequireNonAlphanumeric = true;
+
+                opt.User.RequireUniqueEmail = true;
+
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                opt.Lockout.MaxFailedAccessAttempts = 4;
+                opt.Lockout.AllowedForNewUsers = true;
+            }).AddEntityFrameworkStores<Context>().AddDefaultTokenProviders();
+
             services.AddControllersWithViews();
 
             services.AddDbContext<Context>(opt =>
@@ -45,6 +60,8 @@ namespace MVC__E_Commerce_Project
 
             app.UseRouting();
             app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

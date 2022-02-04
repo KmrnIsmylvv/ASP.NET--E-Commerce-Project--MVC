@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MVC__E_Commerce_Project.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MVC__E_Commerce_Project.DAL
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext<AppUser>
     {
         public Context(DbContextOptions<Context> options) : base(options)
         {
@@ -18,5 +19,6 @@ namespace MVC__E_Commerce_Project.DAL
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Subscribe> Subscribes { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
     }
 }
