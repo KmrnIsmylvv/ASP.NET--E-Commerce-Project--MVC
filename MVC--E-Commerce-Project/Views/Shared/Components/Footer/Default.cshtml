@@ -1,0 +1,81 @@
+﻿@model Contact
+<section class="footer-area bg_cover" style="background-image: url(/assets/images/bg-footer.jpg)">
+    <div class="footer-widget pt-30 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="footer-contact mt-50">
+                        <h4 class="footer-title">Contact Details</h4>
+
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt"></i>@Model.Address</li>
+                            <li><i class="fas fa-phone"></i> <a href="tell:123-456-789">@Model.Phone</a></li>
+                            <li><i class="fas fa-envelope"></i><a href="mailto://email@yourwebsitename.com">@Model.Email</a></li>
+                            <li><i class="far fa-clock"></i> Mon-Sat 9:00pm - 5:00pm Sun:Closed</li>
+                        </ul>
+                    </div> <!-- footer contact -->
+                </div>
+                <div class="col-lg-8">
+                    <div class="footer-link-wrapper d-flex flex-wrap justify-content-between">
+                        <div class="footer-link mt-50">
+                            <h4 class="footer-title">Information</h4>
+
+                            <ul class="link">
+                                <li><a href="#">Delivery</a></li>
+                                <li><a href="#">Legal Notice</a></li>
+                                <li><a href="about.html">About us</a></li>
+                                <li><a href="#">Secure payment</a></li>
+                                <li><a href="contact.html">Contact us</a></li>
+                            </ul>
+                        </div> <!-- footer link -->
+                        <div class="footer-link mt-50">
+                            <h4 class="footer-title">Customer</h4>
+
+                            <ul class="link">
+                                <li><a href="shop-4-column.html">Prices drop</a></li>
+                                <li><a href="shop-4-column.html">New Product</a></li>
+                                <li><a href="shop-3-column.html">Best Sales</a></li>
+                                <li><a href="#">Sitemap</a></li>
+                                <li><a href="login.html">Login</a></li>
+                            </ul>
+                        </div> <!-- footer link -->
+                        <div class="footer-link mt-50">
+                            <h4 class="footer-title">About Us</h4>
+
+                            <ul class="link">
+                                <li><a href="#">About Our Shop</a></li>
+                                <li><a href="#">Secure Shopping </a></li>
+                                <li><a href="#">Delivery infomation </a></li>
+                                <li><a href="#">Store Locations </a></li>
+                                <li><a href="#">Affiliates </a></li>
+                            </ul>
+                        </div> <!-- footer link -->
+                        <div class="footer-link mt-50">
+                            <h4 class="footer-title">My account</h4>
+
+                            <ul class="link">
+                                <li><a href="#">Personal info</a></li>
+                                <li><a href="#">Order</a></li>
+                                <li><a href="#">Credit Slips</a></li>
+                                <li><a href="#">Address</a></li>
+                            </ul>
+                        </div> <!-- footer link -->
+                    </div> <!-- footer link wrapper -->
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </div> <!-- footer widget -->
+
+    <div class="footer-copyright">
+        <div class="container">
+            <div class="footer-copyright-payment text-center d-lg-flex justify-content-between align-items-center">
+                <div class="copyright-text">
+                    <p>Copyright 2020 &copy; <a href="https://hasthemes.com/">HasThemes</a> . All Rights Reserved</p>
+                </div>
+                <div class="payment">
+                    <img src="~/assets/images/payment.png" alt="payment">
+                </div>
+            </div> <!-- footer copyright payment -->
+        </div> <!-- container -->
+    </div> <!-- footer copyright -->
+</section>

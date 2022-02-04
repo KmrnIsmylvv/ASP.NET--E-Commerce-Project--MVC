@@ -1,0 +1,98 @@
+﻿@model Contact
+
+
+    <!--====== Contact PART START ======-->
+
+    <div class="contact-map-area pt-50">
+        <div id="contact-map"></div>
+    </div>
+
+    <!--====== Contact PART ENDS ======-->
+    <!--====== Contact Part Start ======-->
+
+    <section class="contact-page pt-20">
+        <div class="container-fluid custom-container">
+            <div class="row">
+                <div class="col-lg-7 col-xl-8">
+                    <div class="contact-form mt-30">
+                        <h4 class="allup-title">Billing Address</h4>
+                        <form id="contact-form" action="https://demo.hasthemes.com/allup/allup/~/assets/contact.php" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <input type="text" name="name" placeholder="Your Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <input type="email" name="email" placeholder="Your Email">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="single-form">
+                                        <input type="text" name="subject" placeholder="Subject">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="single-form">
+                                        <textarea name="message" placeholder="Your Message"></textarea>
+                                    </div>
+                                </div>
+                                <p class="form-message"></p>
+                                <div class="col-md-12">
+                                    <div class="single-form">
+                                        <button class="main-btn main-btn-2">Send Message</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-xl-4">
+                    <div class="contact-info mt-30">
+                        <h4 class="title">Contact Us</h4>
+                        <p class="text">@Model.Description</p>
+
+                        <ul class="contact-info-block">
+                            <li>
+                                <div class="single-info">
+                                    <div class="info-icon-title d-flex align-item-center">
+                                        <div class="info-icon">
+                                            <i class="icon ion-map"></i>
+                                        </div>
+                                        <h5 class="info-title media-body">Address</h5>
+                                    </div>
+                                    <p>@Model.Address</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="single-info">
+                                    <div class="info-icon-title d-flex align-item-center">
+                                        <div class="info-icon">
+                                            <i class="icon ion-ios-telephone-outline"></i>
+                                        </div>
+                                        <h5 class="info-title media-body">Phone</h5>
+                                    </div>
+                                    <p>@Model.Phone</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="single-info">
+                                    <div class="info-icon-title d-flex align-item-center">
+                                        <div class="info-icon">
+                                            <i class="icon ion-ios-email-outline"></i>
+                                        </div>
+                                        <h5 class="info-title media-body">Email</h5>
+                                    </div>
+                                    <p>@Model.Email</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--====== Contact Part Ends ======-->
+    
