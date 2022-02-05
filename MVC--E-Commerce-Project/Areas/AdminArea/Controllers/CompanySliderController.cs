@@ -23,6 +23,7 @@ namespace MVC__E_Commerce_Project.Areas.AdminArea.Controllers
             _context = context;
             _env = env;
         }
+
         // GET: CompanySliderController
         public ActionResult Index()
         {

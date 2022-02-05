@@ -25,5 +25,7 @@ namespace MVC__E_Commerce_Project.ViewModels
         [Required]
         [DataType(DataType.Password), Compare(nameof(Password))]
         public string ConfirmPassword { get; set; }
+
+        public bool IsSubscribe { get; set; }
     }
 }

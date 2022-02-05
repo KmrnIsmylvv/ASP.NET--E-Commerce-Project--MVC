@@ -17,6 +17,6 @@ namespace MVC__E_Commerce_Project.Models
 
         [Required]
         [NotMapped]
-        public IFormFile[] Images{ get; set; }
+        public IFormFile Image{ get; set; }
     }
 }
