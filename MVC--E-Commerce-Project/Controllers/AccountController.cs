@@ -4,7 +4,10 @@ using MVC__E_Commerce_Project.Models;
 using MVC__E_Commerce_Project.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace MVC__E_Commerce_Project.Controllers
@@ -40,6 +43,7 @@ namespace MVC__E_Commerce_Project.Controllers
                 FullName = register.FullName,
                 UserName = register.UserName,
                 Email = register.Email,
+                IsSubscribe=register.IsSubscribe
             };
 
             IdentityResult identityResult = await _userManager.CreateAsync(user, register.Password);
@@ -52,12 +56,54 @@ namespace MVC__E_Commerce_Project.Controllers
                 }
                 return View();
             }
+
+            string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            string link = Url.Action(nameof(VerifyEmail), "Account", new { email = user.Email, token }, Request.Scheme, Request.Host.ToString());
+
+            MailMessage mail = new MailMessage();
+
+            mail.From = new MailAddress("loremipsump125@gmail.com", "AllUp");
+            mail.To.Add(new MailAddress(user.Email));
+            string html = string.Empty;
+            using (StreamReader reader = new StreamReader("wwwroot/assets/template/Email.html"))
+            {
+                html = reader.ReadToEnd();
+            }
+            mail.Body = html.Replace("{{link}}", link);
+            mail.Subject = "VerifyEmail";
+            mail.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Port = 587;
+            smtp.Host = "smtp.gmail.com";
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential("loremipsump125@gmail.com", "12345@Lm");
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.Send(mail);
             //await _userManager.AddToRoleAsync(user, "Member");
 
-            await _signInManager.SignInAsync(user, true);
+            //await _signInManager.SignInAsync(user, true);
 
             return RedirectToAction("Index", "Home");
         }
+
+        public async Task<IActionResult> VerifyEmail(string email, string token)
+        {
+
+            AppUser user = await _userManager.FindByEmailAsync(email);
+            await _userManager.ConfirmEmailAsync(user, token);
+
+            await _signInManager.SignInAsync(user, true);
+            TempData["Success"] = "Email confirmed";
+            return RedirectToAction("Index", "Home");
+        }
+        public IActionResult CheckSignIn()
+        {
+            return Content(User.Identity.IsAuthenticated.ToString());
+        }
+
+        
 
         public IActionResult Login()
         {

@@ -11,12 +11,8 @@ namespace MVC__E_Commerce_Project.Models
     public class Subscribe
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string ImageUrl { get; set; }
-        
-        [Required]
-        [NotMapped]
-        public IFormFile Image{ get; set; }
+
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
     }
 }
