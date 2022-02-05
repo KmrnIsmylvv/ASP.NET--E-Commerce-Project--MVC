@@ -2404,24 +2404,6 @@
 <!--====== Testimonial Part Ends ======-->
 <!--====== Newsletter Part Start ======-->
 
-<section class="newsletter-area pt-100 pb-100 bg_cover" style="background-image: url(assets/images/bg-newletter.jpg)">
-    <div class="container">
-        <div class="row justify-content-end">
-            <div class="col-lg-8">
-                <div class="newsletter-content">
-                    <h2 class="newsletter-title">Subscribe our newsletter</h2>
-                    <p>allup is a powerful eCommerce HTML Template</p>
-
-                    <div class="newsletter-forn">
-                        <form action="#">
-                            <input type="text" placeholder="Your Email address">
-                            <button class="main-btn">Subscribe</button>
-                        </form>
-                    </div>
-                </div> <!-- newsletter content -->
-            </div>
-        </div> <!-- row -->
-    </div> <!-- container -->
-</section>
+@await Component.InvokeAsync("Subscribe")
 
 <!--====== Newsletter Part Ends ======-->

@@ -98,6 +98,7 @@ namespace MVC__E_Commerce_Project.Controllers
             TempData["Success"] = "Email confirmed";
             return RedirectToAction("Index", "Home");
         }
+
         public IActionResult CheckSignIn()
         {
             return Content(User.Identity.IsAuthenticated.ToString());
