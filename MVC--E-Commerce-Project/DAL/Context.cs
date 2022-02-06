@@ -21,5 +21,8 @@ namespace MVC__E_Commerce_Project.DAL
         public DbSet<Subscribe> Subscribes { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<BrandCategory> BrandCategories { get; set; }
     }
 }

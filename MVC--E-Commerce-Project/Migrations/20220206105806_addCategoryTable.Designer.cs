@@ -4,14 +4,16 @@ using MVC__E_Commerce_Project.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MVC__E_Commerce_Project.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220206105806_addCategoryTable")]
+    partial class addCategoryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,44 +115,6 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Brand", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Brands");
-                });
-
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.BrandCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BrandId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("BrandCategories");
-                });
-
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -160,9 +124,6 @@ namespace MVC__E_Commerce_Project.Migrations
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsFeatured")
                         .HasColumnType("bit");
@@ -416,25 +377,6 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.BrandCategory", b =>
-                {
-                    b.HasOne("MVC__E_Commerce_Project.Models.Brand", "Brand")
-                        .WithMany("BrandCategories")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MVC__E_Commerce_Project.Models.Category", "Category")
-                        .WithMany("BrandCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Category", b =>
                 {
                     b.HasOne("MVC__E_Commerce_Project.Models.Category", "MainCategory")
@@ -509,15 +451,8 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.Navigation("Messages");
                 });
 
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Brand", b =>
-                {
-                    b.Navigation("BrandCategories");
-                });
-
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Category", b =>
                 {
-                    b.Navigation("BrandCategories");
-
                     b.Navigation("SubCategory");
                 });
 #pragma warning restore 612, 618

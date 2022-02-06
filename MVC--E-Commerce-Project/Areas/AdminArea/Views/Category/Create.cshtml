@@ -1,0 +1,75 @@
+﻿@model Category
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Category</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data" method="Post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsMain" onchange="valueChanged()" /> @Html.DisplayNameFor(model => model.IsMain)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsFeatured" /> @Html.DisplayNameFor(model => model.IsFeatured)
+                </label>
+            </div>
+            <div class="form-group">
+                <select asp-for="MainCategory.Id" id="category">
+                    <option selected>Selected Main Category</option>
+                    @foreach (var item in ViewBag.Category)
+                    {
+                        <option value="@item.Id">
+                            @item.Name
+                        </option>
+                    }
+
+
+                </select>
+            </div>
+            <div class="form-group" style="display:none" id="photodiv">
+                <label asp-for="Photo"></label>
+                <input asp-for="Photo" class="form-control" accept="image/*" placeholder="Name">
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-outline-warning">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section CategoryScript{
+    <script>
+            function valueChanged() {
+                if ($('#IsMain').is(":checked")) {
+                    $("#category").hide();
+                    $("#photodiv").show();
+                }
+                else {
+                    $("#category").show();
+                    $("#photodiv").hide();
+                }
+            }
+    </script>
+}

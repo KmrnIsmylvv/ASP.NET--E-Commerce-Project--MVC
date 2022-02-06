@@ -121,3 +121,41 @@
 @await Component.InvokeAsync("Subscribe")
 
 <!--====== Newsletter Part Ends ======-->
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        $(document).ready(function () {
+            $("#contact-form").submit(function (e) {
+                e.preventDefault();
+                let formData = {
+                    Subject: $("#Message_Subject").val(),
+                    Text: $("#Message_Text").val(),
+                };
+
+                $.ajax({
+                    url: "/contact/sendmessage",
+                    type: "post",
+                    data: formData,
+                    success: function (response) {
+                        Swal.fire({
+                                position: 'top',
+                                icon: 'success',
+                                title: 'Your message has sended',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function (result) {
+                            // document.getElementsByClassName("cbr-alert")[0].style.display = "none"
+                                $("#Message_Subject").val("");
+                                $("#Message_Text").val("");
+                        })
+                    },
+                    error: function (error) { }
+                })
+            })
+        })
+    </script>
+}

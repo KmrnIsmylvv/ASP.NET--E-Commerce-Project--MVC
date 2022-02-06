@@ -42,7 +42,7 @@ namespace MVC__E_Commerce_Project.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> SendMessage(Message message)
+        public async Task<IActionResult> SendMessage([FromForm]Message message)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -60,7 +60,7 @@ namespace MVC__E_Commerce_Project.Controllers
                 return RedirectToAction("LogIn", "Account");
             }
 
-            return RedirectToAction(nameof(Index));
+            return Ok(new { Message = "Success" });
         }
     }
 }

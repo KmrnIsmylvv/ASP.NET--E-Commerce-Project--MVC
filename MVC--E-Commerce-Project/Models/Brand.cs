@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace MVC__E_Commerce_Project.Models
 {
-    public class Message
+    public class Brand
     {
         public int Id { get; set; }
 
-        
-        public string Subject { get; set; }
+        [Required(ErrorMessage ="Can't be empty")]
+        public string Name { get; set; }
 
-        
-        public string Text { get; set; }
-
-        public string UserId { get; set; }
-        public AppUser User { get; set; }
+        public List<BrandCategory> BrandCategories { get; set; }
     }
 }
