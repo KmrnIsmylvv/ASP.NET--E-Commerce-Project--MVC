@@ -48,13 +48,15 @@ namespace MVC__E_Commerce_Project.Areas.AdminArea.Controllers
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
-            Message message= await _context.Messages.FindAsync(id);
 
-            if (message == null) return NotFound();
-            return View(message);
+            List<Message> messages = _context.Messages.Include(u => u.User).ToList();
+            var oneMessage = messages.Find(x => x.Id == id);
+
+            AppUser user = await _userManager.FindByIdAsync(oneMessage.UserId);
+            oneMessage.User = user;
+
+            return View(oneMessage);
         }
-
-
 
         // POST: ContactController/Delete/5
         [HttpPost]

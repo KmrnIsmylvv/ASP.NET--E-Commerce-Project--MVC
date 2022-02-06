@@ -1,0 +1,46 @@
+﻿@model About
+<!--====== About Part Start ======-->
+
+<section class="about-page pt-20">
+    <div class="container-fluid custom-container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="about-image mt-30">
+                    <img src="~/assets/images/@Model.ImageUrl" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-content mt-30">
+                    <h2 class="title">@Model.Title</h2>
+                    <p>@Model.Description</p>
+                </div>
+            </div>
+        </div> <!-- row -->
+        <div class="about-items pt-20">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="about-item mt-30">
+                        <h4 class="title">Our company</h4>
+                        <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dolor sit amet conse ctetur adipisicing elit.</p>
+                    </div> <!-- about item -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="about-item mt-30">
+                        <h4 class="title">Our team</h4>
+                        <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dolor sit amet conse ctetur adipisicing elit.</p>
+                    </div> <!-- about item -->
+                </div>
+                <div class="col-lg-4">
+                    <div class="about-item mt-30">
+                        <h4 class="title">Testimonials</h4>
+                        <p>Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam. Lorem ipsum dolor sit amet conse ctetur adipisicing elit.</p>
+                    </div> <!-- about item -->
+                </div>
+            </div> <!-- row -->
+        </div>  <!-- about items -->
+    </div> <!-- container -->
+</section>
+
+@await Component.InvokeAsync("CompanySliderService")
+
+@await Component.InvokeAsync("Subscribe")
