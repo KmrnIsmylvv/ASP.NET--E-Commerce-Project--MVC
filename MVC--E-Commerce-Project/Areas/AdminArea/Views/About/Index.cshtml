@@ -1,0 +1,45 @@
+﻿@model About
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Description)
+            </td>
+            <td>
+                <img src="~/assets/images/@Model.ImageUrl" alt="">
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Edit</a> |
+                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-warning">Details</a> |
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
