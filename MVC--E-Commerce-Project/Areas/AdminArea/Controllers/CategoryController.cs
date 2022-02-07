@@ -161,7 +161,7 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
 
             if (!category.IsMain)
             {
-                newCategory.MainCategory = category.MainCategory;
+                newCategory.MainCategory =await _context.Categories.FindAsync(category.MainCategory.Id);
                 newCategory.Name = category.Name;
 
             }
@@ -187,12 +187,12 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
                 {
                     System.IO.File.Delete(path);
                 }
-                string fileName = await category.Photo.SaveImageAsync(_env.WebRootPath, "images/");
+                string fileName = await category.Photo.SaveImageAsync(_env.WebRootPath, "assets/images/");
                 newCategory.IsFeatured = category.IsFeatured;
-                newCategory.Name = category.Name;
+               
                 newCategory.ImageUrl = fileName;
-
             }
+            newCategory.Name = category.Name;
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");

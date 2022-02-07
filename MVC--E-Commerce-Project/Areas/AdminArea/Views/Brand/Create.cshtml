@@ -1,0 +1,91 @@
+﻿@model Brand
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Brand</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" id="contact-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            @foreach (var item in ViewBag.IsMainCategory)
+            {
+                <div class="d-flex align-items-stretch">
+                    <div class="form-group form-check d-flex">
+                        <h5>@item.Name</h5>
+                    </div>
+                </div>
+                @foreach (var itemsub in ViewBag.SubCategory)
+                {
+                    @if (itemsub.MainCategory.Id == item.Id)
+                    {
+                        <div class="form-group form-check d-flex">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input subcategory" name="subcategory" value="@itemsub.Id" />@itemsub.Name
+                            </label>
+                        </div>
+                    }
+                }
+
+            }
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class=" btn btn-outline-warning">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
+@*@section BrandCreate{
+        <script>
+            $(document).ready(function () {
+                $("form").submit(function (e) {
+                    alert("sadsdasdaasd")
+
+                    var formData = $(form).serialize();
+
+                    $.ajax({
+                        url: "/brand/create",
+                        type: "post",
+                        data: formData,
+                        success: function (response) {
+                            Swal.fire({
+                                position: 'top',
+                                icon: 'success',
+                                title: response.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function (result) {
+                                // document.getElementsByClassName("cbr-alert")[0].style.display = "none"
+                                $("#Message_Title").val("");
+                                $("#Message_Description").val("");
+                            })
+                            //toastr.warning('Have fun storming the castle!', Admin:)
+                        },
+                        error: function (error) { }
+                    })
+                })
+            })
+        </script>
+    }*@
