@@ -1,0 +1,58 @@
+﻿@model Brand
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Brand</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            @foreach (var item in ViewBag.noneCheck)
+            {
+                <div class="d-flex align-items-stretch">
+                    <div class="form-group form-check d-flex">
+                        <h5></h5>
+                    </div>
+                </div>
+                <div class="form-group form-check d-flex">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input subcategory" name="subcategory" value="@item.Id" />@item.Name
+                    </label>
+                </div>
+
+
+            }
+            @foreach (var item in ViewBag.checkCategory)
+            {
+                <div class="form-group form-check d-flex">
+                    <label class="form-check-label">
+                        <input type="checkbox" checked class="form-check-input subcategory" name="subcategory" value="@item.Id" />@item.Category.Name
+                    </label>
+                </div>
+
+            }
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-outline-warning">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
