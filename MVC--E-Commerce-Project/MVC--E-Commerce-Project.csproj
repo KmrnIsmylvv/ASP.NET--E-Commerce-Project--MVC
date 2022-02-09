@@ -8,7 +8,6 @@
   <ItemGroup>
     <Folder Include="Areas\AdminArea\Data\" />
     <Folder Include="Areas\AdminArea\Models\" />
-    <Folder Include="Areas\AdminArea\ViewModels\" />
     <Folder Include="wwwroot\CompanyImages\" />
   </ItemGroup>
 

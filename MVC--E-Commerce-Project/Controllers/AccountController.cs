@@ -81,9 +81,9 @@ namespace MVC__E_Commerce_Project.Controllers
             smtp.Credentials = new NetworkCredential("loremipsump125@gmail.com", "12345@Lm");
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.Send(mail);
-            //await _userManager.AddToRoleAsync(user, "Member");
+            await _userManager.AddToRoleAsync(user, "Member");
 
-            //await _signInManager.SignInAsync(user, true);
+            await _signInManager.SignInAsync(user, true);
 
             return RedirectToAction("Index", "Home");
         }
@@ -138,11 +138,11 @@ namespace MVC__E_Commerce_Project.Controllers
                 return View();
             }
 
-            //var roles = await _userManager.GetRolesAsync(dbUser);
-            //if (roles[0] == "Admin")
-            //{
-            //    return RedirectToAction("Index", "Dashboard", new { area = "AdminArea" });
-            //}
+            var roles = await _userManager.GetRolesAsync(dbUser);
+            if (roles[0] == "Admin")
+            {
+                return RedirectToAction("Index", "Dashboard", new { area = "AdminArea" });
+            }
 
             return RedirectToAction("Index", "Home");
         }
@@ -153,5 +153,16 @@ namespace MVC__E_Commerce_Project.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public async Task CreateRole()
+        {
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
+            }
+            if (!await _roleManager.RoleExistsAsync("Member"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = "Member" });
+            }
+        }
     }
 }

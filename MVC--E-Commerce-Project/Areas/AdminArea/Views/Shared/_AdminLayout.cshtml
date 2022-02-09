@@ -215,6 +215,19 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a asp-controller="Product" asp-action="Index" class="nav-link">
+                            Product
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a asp-controller="Role" asp-action="Index" class="nav-link">
+                            Roles
+                        </a>
+                    </li>
+
+
 
 
                     <li class="nav-item">
@@ -295,13 +308,15 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-    <script>$(document).ready(function () {
+    <script>
+        $(document).ready(function () {
             $('#Pro').DataTable();
         });</script>
 
     @RenderSection("Scripts", false)
     @RenderSection("Css", false)
     @RenderSection("CategoryScript", false)
+    @RenderSection("ProductCreate", false)
     <!-- End custom js for this page-->
 </body>
 

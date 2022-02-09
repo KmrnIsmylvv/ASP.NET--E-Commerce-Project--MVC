@@ -14,5 +14,7 @@ namespace MVC__E_Commerce_Project.Models
         public string Name { get; set; }
 
         public List<BrandCategory> BrandCategories { get; set; }
+
+        public virtual List<Product> Products { get; set; }
     }
 }
