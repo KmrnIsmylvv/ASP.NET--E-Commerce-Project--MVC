@@ -16,9 +16,21 @@ namespace MVC__E_Commerce_Project.Controllers
         {
             _context = context;
         }
+
         public IActionResult Index()
         {
-            return View();
+            List<CompanySlider> companySliders = _context.CompanySliders.ToList();
+            List<Service> services = _context.Services.ToList();
+            List<Category> categories = _context.Categories.Where(c => c.IsMain == true).ToList();
+
+            HomeVm homeVm = new HomeVm();
+            homeVm.companySliders = companySliders;
+            homeVm.services = services;
+            homeVm.categories = categories;
+
+            ViewBag.FeatCategories = categories.Where(c => c.IsFeatured == true);
+            
+            return View(homeVm);
         }
     }
 }
