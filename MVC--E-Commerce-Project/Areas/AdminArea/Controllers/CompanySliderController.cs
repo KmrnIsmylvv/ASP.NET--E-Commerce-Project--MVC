@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVC__E_Commerce_Project.DAL;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 namespace MVC__E_Commerce_Project.Areas.AdminArea.Controllers
 {
     [Area("AdminArea")]
+    [Authorize(Roles = "Admin")]
     public class CompanySliderController : Controller
     {
         private readonly Context _context;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVC__E_Commerce_Project.DAL;
 using MVC__E_Commerce_Project.Models;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace MVC__E_Commerce_Project.Areas.AdminArea.Controllers
 {
     [Area("AdminArea")]
+    [Authorize(Roles = "Admin")]
     public class ContactController : Controller
     {
         private readonly Context _context;

@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace E_commerce_BackFinal.Areas.Admin.Controllers
 {
     [Area("AdminArea")]
-
+    [Authorize(Roles = "Admin")]
     public class BrandController : Controller
     {
         private readonly Context _context;
@@ -100,84 +101,86 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
         // POST: BrandController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int? id, Brand brand, int[] subcategory)
+        public async Task<ActionResult> Edit(int? id, Brand brand, List<int> subcategory)
         {
             bool isExist = _context.Brands.Any(c => c.Name.ToLower() == brand.Name.ToLower().Trim());
             Brand newBrand = await _context.Brands.FindAsync(id);
 
             if (isExist && !(newBrand.Name.ToLower() == brand.Name.ToLower().Trim()))
             {
-
-
-                ModelState.AddModelError("Name", "Bu adla Brand var");
-                return RedirectToAction("Index");
+                ModelState.AddModelError("Name", $"{newBrand} brand already exists");
+                return RedirectToAction("Edit");
             }
-            var allSubCategory = _context.Categories.Where(c => c.IsMain == false).ToList();
-            var checkedCategory = _context.BrandCategories.Where(c => c.BrandId == newBrand.Id).ToList();
 
-            List<int> allCategoryList = new List<int>();
-            List<int> checkedCategoryList = new List<int>();
-
-            foreach (var item in allSubCategory)
+            if (subcategory.Count() == 0)
             {
-                allCategoryList.Add(item.Id);
+                ModelState.AddModelError("Name", "Must choose at least 1 category");
+                return RedirectToAction("Edit");
             }
 
-            foreach (var item in checkedCategory)
-            {
-                checkedCategoryList.Add(item.CategoryId);
-            }
+            List<int> checkedCategory = _context.BrandCategories.Where(c => c.BrandId == newBrand.Id).Select(i => i.CategoryId).ToList();
 
-            var addedCategory = subcategory.Except(checkedCategoryList);
-            var removedCategory = checkedCategoryList.Except(subcategory);
+            List<int> addedCategory = subcategory.Except(checkedCategory).ToList();
+            List<int> removedCategory = checkedCategory.Except(subcategory).ToList();
+
+            int addedCategoryLength = addedCategory.Count();
+            int removedCategoryLength = removedCategory.Count();
+            int FullLength = addedCategoryLength + removedCategoryLength;
 
             newBrand.Name = brand.Name;
 
-
-            foreach (var item in removedCategory)
+            for (int i = 1; i <= FullLength; i++)
             {
-                BrandCategory categoryBrand = await _context.BrandCategories.Where(c => c.CategoryId == item && c.BrandId == newBrand.Id).FirstOrDefaultAsync();
-                _context.BrandCategories.Remove(categoryBrand);
-                await _context.SaveChangesAsync();
-            }
-            if (addedCategory != null)
-            {
-                foreach (var item in addedCategory)
+                if (addedCategoryLength >= i)
                 {
-                    Category category = _context.Categories.Find(item);
                     BrandCategory categoryBrand = new BrandCategory();
                     categoryBrand.BrandId = newBrand.Id;
-                    categoryBrand.CategoryId = category.Id;
+                    categoryBrand.CategoryId = addedCategory[i - 1];
                     await _context.BrandCategories.AddAsync(categoryBrand);
                     await _context.SaveChangesAsync();
                 }
-                return RedirectToAction("Index");
+
+                if (removedCategoryLength >= i)
+                {
+                    BrandCategory categoryBrand = await _context.BrandCategories.FirstOrDefaultAsync(c => c.CategoryId == removedCategory[i - 1] && c.BrandId == newBrand.Id);
+                    _context.BrandCategories.Remove(categoryBrand);
+                    await _context.SaveChangesAsync();
+                }
             }
-            return NotFound();
-
-
-
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         // GET: BrandController/Delete/5
-        public ActionResult Delete(int id)
+        public async  Task<ActionResult> Delete(int id)
         {
-            return View();
+            Brand _brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == id);
+            if (_brand == null) return RedirectToAction("Delete");
+            return View(_brand);
         }
 
         // POST: BrandController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(Brand brand)
         {
-            try
+            Brand _brand = await _context.Brands.FirstOrDefaultAsync(x => x.Id == brand.Id);
+            if (brand == null) return RedirectToAction("Delete");
+
+
+            List<BrandCategory> categoryBrand = await _context.BrandCategories.ToListAsync();
+            foreach (var item in categoryBrand)
             {
-                return RedirectToAction(nameof(Index));
+
+                _context.BrandCategories.Remove(item);
+                await _context.SaveChangesAsync();
+
+
             }
-            catch
-            {
-                return View();
-            }
+            _context.Brands.Remove(_brand);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -104,8 +104,6 @@ namespace MVC__E_Commerce_Project.Controllers
             return Content(User.Identity.IsAuthenticated.ToString());
         }
 
-        
-
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)

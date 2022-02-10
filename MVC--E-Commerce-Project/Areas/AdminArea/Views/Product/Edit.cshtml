@@ -149,10 +149,10 @@
         $("#BrandId").change(function () {
             const change = $("#BrandId option:selected").val()
             $.ajax({
-                url: "/Admin/Product/CallCategory?id=" + change,
+                url: "/AdminArea/Product/CallCategory?id=" + change,
                 method: "get",
                 success: function (res) {
-                    $("#change option").next().remove()
+                    $("#change option").remove()
                     $("#change").append(res)
                 }
             })

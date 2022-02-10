@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 namespace E_commerce_BackFinal.Areas.Admin.Controllers
 {
     [Area("AdminArea")]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly IWebHostEnvironment _env;
@@ -326,7 +328,9 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
                         ProductImages productPhoto = new ProductImages();
 
                         string fileName = await photo.SaveImageAsync(_env.WebRootPath, "assets/images/product/");
+
                         if (count == 0) productPhoto.IsMain = true;
+                        
                         productPhoto.ImageUrl = fileName;
                         productPhoto.ProductId = newProduct.Id;
 

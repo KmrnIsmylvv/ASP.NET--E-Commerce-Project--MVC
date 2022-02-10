@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 namespace E_commerce_BackFinal.Areas.Admin.Controllers
 {
     [Area("AdminArea")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly IWebHostEnvironment _env;
@@ -161,9 +163,11 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
 
             if (!category.IsMain)
             {
-                newCategory.MainCategory =await _context.Categories.FindAsync(category.MainCategory.Id);
+                newCategory.MainCategory = await _context.Categories.FindAsync(category.MainCategory.Id);
                 newCategory.Name = category.Name;
 
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Category");
             }
             if (category.Photo != null)
             {
@@ -188,11 +192,11 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
                     System.IO.File.Delete(path);
                 }
                 string fileName = await category.Photo.SaveImageAsync(_env.WebRootPath, "assets/images/");
-                newCategory.IsFeatured = category.IsFeatured;
-               
+
                 newCategory.ImageUrl = fileName;
             }
             newCategory.Name = category.Name;
+            newCategory.IsFeatured = category.IsFeatured;
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
