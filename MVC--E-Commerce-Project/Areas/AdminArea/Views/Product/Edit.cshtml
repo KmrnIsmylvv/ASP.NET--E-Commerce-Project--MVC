@@ -1,17 +1,30 @@
 ﻿@model Product
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Create</h1>
+<h1>Edit</h1>
 
 <h4>Product</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <div>
+            @foreach (var item in ViewBag.photos)
+            {
+                if (item.IsMain == true)
+                {
+                    <h3>Ismain</h3>
+                }
+                <img src="~/assets/images/product/@item.ImageUrl" style="width:100px;height:100px" alt="Alternate Text" />
+
+
+            }
+        </div>
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -53,54 +66,72 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="BrandId" class="control-label"></label>
-                <select asp-for="BrandId" class="form-control" asp-items="ViewBag.Brand">
-                    <option selected value="0">Select Brand</option>
-                </select>
+                <label asp-for="BrandId" class="control-label">Brand</label>
+                <select asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId"></select>
+                <span asp-validation-for="BrandId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Category</label>
                 <select id="change" class="form-control" name="categoryid">
-                    <option selected value="0">Select Category</option>
+                    <option selected value="@ViewBag.Id">@ViewBag.category.Name</option>
+
                 </select>
             </div>
 
+
             <div class="form-group">
-                <label class="control-label">Color</label>
+                <label class="control-label">Colors</label>
             </div>
-            @foreach (var item in ViewBag.Colors)
+            @foreach (var item in ViewBag.checkColor)
             {
                 <div class="form-group form-check d-flex">
                     <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input subcategory" name="colorId" value="@item.Id" />@item.Name
+                        <input type="checkbox" class="form-check-input" name="colorId" checked value="@item.Id" />@item.Name
+                    </label>
+                </div>
+            }
+            @foreach (var item in ViewBag.noneColor)
+            {
+                <div class="form-group form-check d-flex">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="colorId" value="@item.Id" />@item.Name
+                    </label>
+                </div>
+            }
+            <div class="form-group">
+                <label class="control-label">Tags</label>
+            </div>
+            @foreach (var item in ViewBag.noneTag)
+            {
+                <div class="form-group form-check d-flex">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="tagId" value="@item.Id" />@item.Name
+                    </label>
+                </div>
+            }
+            @foreach (var item in ViewBag.checkTag)
+            {
+                <div class="form-group form-check d-flex">
+                    <label class="form-check-label">
+                        <input type="checkbox" checked class="form-check-input " name="tagId" value="@item.Id" />@item.Name
                     </label>
                 </div>
 
             }
-
             <div class="form-group">
-                <label class="control-label">Tag</label>
+                <label class="control-label">Campaign</label>
+                <select asp-for="CampaignId" class="form-control" asp-items="ViewBag.CampaignId"></select>
+                <span asp-validation-for="CampaignId" class="text-danger"></span>
             </div>
-            @foreach (var item in ViewBag.Tags)
-            {
-                <div class="form-group form-check d-flex">
-                    <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input subcategory" name="tagId" value="@item.Id" />@item.Name
-                    </label>
-                </div>
-            }
 
-            <div class="form-group">
-                <label asp-for="CampaignId" class="control-label"></label>
-                <select asp-for="CampaignId" class="form-control" asp-items="ViewBag.Campaign"></select>
-            </div>
             <div class="form-group">
                 <label asp-for="Photos"></label>
                 <input asp-for="Photos" class="form-control" accept="image/*" placeholder="Name">
                 <span asp-validation-for="Photos" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -118,7 +149,7 @@
         $("#BrandId").change(function () {
             const change = $("#BrandId option:selected").val()
             $.ajax({
-                url: "CallCategory?id=" + change,
+                url: "/Admin/Product/CallCategory?id=" + change,
                 method: "get",
                 success: function (res) {
                     $("#change option").next().remove()

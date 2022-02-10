@@ -9,6 +9,7 @@ using MVC__E_Commerce_Project.Extensions;
 using MVC__E_Commerce_Project.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -125,7 +126,7 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
                 }
             }
 
-            if (ModelState["Image"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+            if (ModelState["Photos"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
             {
                 ModelState.AddModelError("Image", "Do not empty");
             }
@@ -159,24 +160,211 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
         }
 
         // GET: ProductController/Edit/5
-        public ActionResult Edit(int id)
+        public async  Task<ActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null) return NotFound();
+            Product product = await _context.Products.FindAsync(id);
+            var relation = _context.ProductRelations.Where(b => b.ProductId == id && b.BrandId == product.BrandId).FirstOrDefault();
+            Category category = await _context.Categories.FindAsync(relation.CategoryId);
+            ViewBag.category = category;
+
+            var brands = new SelectList(_context.Brands.OrderBy(l => l.Name)
+            .ToDictionary(us => us.Id, us => us.Name), "Key", "Value");
+            ViewBag.BrandId = brands;
+
+            var campaign = new SelectList(_context.Campaigns.OrderBy(l => l.Discount)
+             .ToDictionary(us => us.Id, us => us.Discount), "Key", "Value");
+            ViewBag.CampaignId = campaign;
+           
+            var photos = _context.ProductImages.Where(p => p.ProductId == id).ToList();
+            ViewBag.photos = photos;
+
+            var checkTag = await _context.ProductTags.Where(p => p.ProductId == id).Select(t => t.Tag).ToListAsync();
+            var checkColor = await _context.ProductColors.Where(p => p.ProductId == id).Select(c => c.Color).ToListAsync();
+            ViewBag.checkTag = checkTag;
+            ViewBag.checkColor = checkColor;
+
+            var allTag = await _context.Tags.ToListAsync();
+            var allColor = await _context.Colors.ToListAsync();
+
+            var noneCheckTag = allTag.Except(checkTag);
+            var noneCheckColor = allColor.Except(checkColor);
+            ViewBag.noneTag = noneCheckTag;
+            ViewBag.noneColor = noneCheckColor;
+
+            return View(product);
         }
 
         // POST: ProductController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int? id, Product product, int categoryid, List<int> tagId, List<int> colorId)
         {
-            try
+            if (categoryid == null) return RedirectToAction("Edit", "Product");
+
+            Product newProduct = await _context.Products.FindAsync(id);
+            var relationProduct = _context.ProductRelations.Where(p => p.ProductId == id && p.BrandId == newProduct.BrandId).FirstOrDefault();
+
+            newProduct.Name = product.Name;
+            newProduct.Price = product.Price;
+            newProduct.CampaignId = product.CampaignId;
+            newProduct.BrandId = product.BrandId;
+            newProduct.Availibility = product.Availibility;
+            newProduct.Description = product.Description;
+            newProduct.ExTax = product.ExTax;
+            newProduct.Quantity = product.Quantity;
+            newProduct.IsFeatured = product.IsFeatured;
+            newProduct.ProductCode = product.ProductCode;
+            await _context.SaveChangesAsync();
+
+            if (relationProduct.CategoryId != categoryid || relationProduct.BrandId != newProduct.BrandId)
             {
-                return RedirectToAction(nameof(Index));
+                _context.ProductRelations.Remove(relationProduct);
+                ProductRelation newProductRelation = new ProductRelation();
+                newProductRelation.CategoryId = categoryid;
+                newProductRelation.BrandId = newProduct.BrandId;
+                newProductRelation.ProductId = newProduct.Id;
+                await _context.ProductRelations.AddAsync(newProductRelation);
+                await _context.SaveChangesAsync();
             }
-            catch
+
+            List<int> checkTag = _context.ProductTags.Where(p => p.ProductId == newProduct.Id).Select(t => t.TagId).ToList();
+            List<int> checkColor = _context.ProductColors.Where(c => c.ProductId == newProduct.Id).Select(c => c.ColorId).ToList();
+
+            List<int> addedTag = tagId.Except(checkTag).ToList();
+            List<int> removeTag = checkTag.Except(tagId).ToList();
+
+            List<int> addedColor = colorId.Except(checkColor).ToList();
+            List<int> removeColor = checkColor.Except(colorId).ToList();
+
+            int addedTagLength = addedTag.Count();
+            int removedTagLength = removeTag.Count();
+            int FullLength = addedTagLength + removedTagLength;
+
+            int addedColorLength = addedColor.Count();
+            int removedColorLength = removeColor.Count();
+            int FullLengthColor = addedColorLength + removedColorLength;
+
+
+
+            for (int i = 1; i <= FullLength; i++)
             {
-                return View();
+                if (addedTagLength >= i)
+                {
+                    ProductTag productTag = new ProductTag();
+                    productTag.ProductId = newProduct.Id;
+                    productTag.TagId = addedTag[i - 1];
+                    await _context.ProductTags.AddAsync(productTag);
+                    await _context.SaveChangesAsync();
+                }
+
+                if (removedTagLength >= i)
+                {
+                    ProductTag productTag = await _context.ProductTags.FirstOrDefaultAsync(c => c.TagId == removeTag[i - 1] && c.ProductId == newProduct.Id);
+                    _context.ProductTags.Remove(productTag);
+                    await _context.SaveChangesAsync();
+                }
             }
+
+            for (int i = 1; i <= FullLengthColor; i++)
+            {
+                if (addedTagLength >= i)
+                {
+                    ProductColor colorProduct = new ProductColor();
+                    colorProduct.ProductId = newProduct.Id;
+                    colorProduct.ColorId = addedColor[i - 1];
+                    await _context.ProductColors.AddAsync(colorProduct);
+                    await _context.SaveChangesAsync();
+                }
+
+                if (removedTagLength >= i)
+                {
+                    ProductColor colorProduct = await _context.ProductColors.FirstOrDefaultAsync(c => c.ColorId == removeColor[i - 1] && c.ProductId == newProduct.Id);
+                    _context.ProductColors.Remove(colorProduct);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            if (product.Photos != null)
+            {
+                if (ModelState["Photos"].ValidationState == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                {
+                    ModelState.AddModelError("Image", "Do not empty");
+                }
+                var count = 0;
+                var oldPhoto = _context.ProductImages.Where(p => p.ProductId == newProduct.Id).ToList();
+
+
+                if (oldPhoto.Count <= product.Photos.Length)
+                {
+                    foreach (var item in oldPhoto)
+                    {
+                        string path = Path.Combine(_env.WebRootPath, "assets/images/product/", item.ImageUrl);
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                        }
+                        _context.ProductImages.Remove(item);
+                        await _context.SaveChangesAsync();
+                    }
+                    foreach (IFormFile photo in product.Photos)
+                    {
+                        if (!photo.IsImage())
+                        {
+                            ModelState.AddModelError("Image", "only image");
+                            return RedirectToAction("Index");
+
+                        }
+                        if (photo.IsCorrectSize(300))
+                        {
+                            ModelState.AddModelError("Image", "please enter photo under 300kb");
+                            return RedirectToAction("Index");
+                        }
+
+
+
+                        ProductImages productPhoto = new ProductImages();
+
+                        string fileName = await photo.SaveImageAsync(_env.WebRootPath, "assets/images/product/");
+                        if (count == 0) productPhoto.IsMain = true;
+                        productPhoto.ImageUrl = fileName;
+                        productPhoto.ProductId = newProduct.Id;
+
+                        await _context.ProductImages.AddAsync(productPhoto);
+                        await _context.SaveChangesAsync();
+                        count++;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < product.Photos.Length; i++)
+                    {
+                        if (!product.Photos[i].IsImage())
+                        {
+                            ModelState.AddModelError("Image", "only image");
+                            return RedirectToAction("Index");
+
+                        }
+                        if (product.Photos[i].IsCorrectSize(300))
+                        {
+                            ModelState.AddModelError("Image", "please enter photo under 300kb");
+                            return RedirectToAction("Index");
+                        }
+                        string fileName = await product.Photos[i].SaveImageAsync(_env.WebRootPath, "assets/images/product/");
+                        string path = Path.Combine(_env.WebRootPath, "assets/images/product/", oldPhoto[i].ImageUrl);
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                        }
+                        oldPhoto[i].ImageUrl = fileName;
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
 
         // GET: ProductController/Delete/5
