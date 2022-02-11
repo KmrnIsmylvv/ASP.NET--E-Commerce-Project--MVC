@@ -34,6 +34,8 @@ namespace MVC__E_Commerce_Project.Models
 
         public List<ProductImages> Images { get; set; }
 
+        public List<Blog> Blogs { get; set; }
+
         [NotMapped]
         [Required]
         public IFormFile[] Photos { get; set; }

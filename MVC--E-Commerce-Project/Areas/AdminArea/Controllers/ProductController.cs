@@ -158,7 +158,7 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
             }
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
         // GET: ProductController/Edit/5

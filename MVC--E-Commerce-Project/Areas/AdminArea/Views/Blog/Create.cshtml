@@ -1,0 +1,92 @@
+﻿@model Blog
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Blog</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product" class="control-label"></label>
+                <select asp-for="ProductId" class="form-control" asp-items="ViewBag.ProductId"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Photo or Video?</label>
+
+                <select id="select">
+                    <option selected value="0">Selected Option</option>
+                    <option value="1">Video </option>
+                    <option value="2">Photo</option>
+                </select>
+            </div>
+            <div class="form-group" style="display:none" id="videodiv">
+                <label class="control-label">Please enter Video Url</label>
+                <input id="videoinput" name="videourl" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none" id="photodiv">
+                <label asp-for="Photos"></label>
+                <input asp-for="Photos" class="form-control" accept="image/*" placeholder="Name">
+                <span asp-validation-for="Photos" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-outline-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-outline-warning">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section ProductScript{
+    <script>
+        $("#select").change(function () {
+            var value = $("#select").find(":selected").val();
+            if (value === "1") {
+                $("#videodiv").show();
+                $("#photodiv").hide();
+                $("#Photos").val() = "";
+            }
+            if (value === "2") {
+                $("#videodiv").hide();
+                $("#photodiv").show();
+                $("#videoinput").val() = "";
+
+            }
+            if (value === "0") {
+                $("#videodiv").hide();
+                $("#photodiv").hide();
+                $("#Photos").val() = "";
+                $("#videoinput").val() = "";
+            }
+        })
+    </script>
+}
