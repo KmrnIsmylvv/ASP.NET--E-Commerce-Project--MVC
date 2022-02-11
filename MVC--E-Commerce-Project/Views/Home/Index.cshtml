@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     int count = 1;
+    int productcount = 1;
 }
 
 <!--====== Slider Part Start ======-->
@@ -121,406 +122,78 @@
                 <div class="product-items">
                     <div class="row product-active">
                         <div class="col-lg-2">
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-1.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-2.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">Cale 6 eu accumsan massa facilisis Madden by Steve</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€11.90</span>
+                            @foreach (var item in ViewBag.newarrive)
+                            {
+                                <div class="single-product mt-30">
+                                    <div class="product-image">
+                                        <a href="single-product.html">
+                                            <img class="first-image" src="~/assets/images/product/@item.Images[0].ImageUrl" alt="product">
+                                            @if (item.Images.Count > 1)
+                                            {
+                                                <img class="second-image" src="~/assets/images/product/@item.Images[1].ImageUrl" alt="product">
+                                            }
+                                        </a>
+                                        <ul class="product-meta">
+                                            <li><a asp-controller="Basket" asp-action="AddBasket" asp-route-id="@item.Id"><i class="icon ion-bag"></i></a></li>
+                                            <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
+                                            <li><a href="#"><i class="icon ion-android-options"></i></a></li>
+                                            <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
+                                        </ul>
+                                        @if (item.Campaign.Discount != 0)
+                                        {
+                                            <span class="discount-product">-@item.Campaign.Discount%</span>
+                                        }
                                     </div>
-                                </div>
-                            </div> <!-- single product -->
+                                    <div class="product-content">
+                                        <ul class="product-rating">
+                                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                                        </ul>
+                                        @{
+                                            string ShortDesc = item.Description;
+                                            if (ShortDesc.Length > 54)
+                                            {
+                                                ShortDesc = ShortDesc.Substring(0, 54) + "...";
+                                            }
+                                        }
+                                        @{
+                                            double salePrice = 0;
+                                            @if (item.Campaign.Discount != 0)
+                                            {
+                                                salePrice = Convert.ToDouble(item.Price - ((item.Price) * (item.Campaign.Discount) / 100));
+                                            }
 
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-10.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-11.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">Winter Jacket eu accumsan massa facili originals Kaval Wind breaker</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€23.90</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-4.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                    <span class="discount-product">-12%</span>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">Originals Kaval Wind breaker Winter Jacket eu...</a></h4>
-                                    <div class="product-price">
-                                        <span class="regular-price ">€23.90</span>
-                                        <span class="price-sale">€21.90</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
+                                        }
+                                        <h4 class="product-title"><a href="single-product.html">@Html.Raw(ShortDesc)</a></h4>
+                                        <div class="product-price">
+                                            @if (item.Campaign.Discount == 0)
+                                            {
+                                                <span class="price-sale">€@item.Price</span>
+                                            }
+                                            @if (item.Campaign.Discount != 0)
+                                            {
+                                                <span class="regular-price ">€@item.Price</span>
+                                                <span class="price-sale">€@salePrice</span>
+                                            }
 
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-12.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">Juicy Couture Juicy Quilted Terry Track Jacket eu...</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€35.90</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </div> <!-- single product -->
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-5.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">Madden by Steve Madden Cale 6 eu accumsan massa...</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€11.90</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
-
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-16.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-6.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                    <span class="discount-product">-12%</span>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">Trans-Weight Hooded Wind and Water Resistant Shell</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€11.90</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-6.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-7.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">Water and Wind Resistant Insulated Jacket eu massa</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€11.90</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
-
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-13.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">New Balance Fresh Foam Kaymin eu accumsan massa...</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€11.90</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-8.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">Juicy Couture Solid Sleeve Puffer Jacket eu accumsan..</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€18.90</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
-
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-14.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-15.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                        <li><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">New Balance Fresh Foam LAZR v1 Sport eu accumsan...</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€18.90</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-9.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">Cale 6 eu accumsan massa facilisis Madden by Steve</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€29.90</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
-
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-9.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">New Balance Arishi Sport v1Couture Juicy eu</a></h4>
-                                    <div class="product-price">
-                                        <span class="regular-price">€29.00</span>
-                                        <span class="price-sale">€26.10</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-9.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">Cale 6 eu accumsan massa facilisis Madden by Steve</a></h4>
-                                    <div class="product-price">
-                                        <span class="price-sale">€29.90</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
-
-                            <div class="single-product mt-30">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-9.jpg" alt="product">
-                                    </a>
-                                    <ul class="product-meta">
-                                        <li><a href="#"><i class="icon ion-bag"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
-                                        <li><a href="#"><i class="icon ion-android-options"></i></a></li>
-                                        <li><a data-toggle="modal" data-target="#productQuickModal" href="#"><i class="icon ion-android-open"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product-content">
-                                    <ul class="product-rating">
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                        <li class="rating-on"><i class="fas fa-star"></i></li>
-                                    </ul>
-                                    <h4 class="product-title"><a href="single-product.html">New Balance Arishi Sport v1Couture Juicy eu</a></h4>
-                                    <div class="product-price">
-                                        <span class="regular-price">€29.00</span>
-                                        <span class="price-sale">€26.10</span>
-                                    </div>
-                                </div>
-                            </div> <!-- single product -->
+                                </div> <!-- single product -->
+                                @if (productcount % 2 == 0 && productcount != ViewBag.newarrive.Count)
+                                {
+                                    @Html.Raw("</div>");
+                                    @Html.Raw("<div class='col-lg-2'>");
+                                }
+                                productcount++;
+                            }
                         </div>
                     </div> <!-- row -->
                 </div> <!-- product items -->
             </div>
+
             <div class="tab-pane fade" id="bestseller" role="tabpanel" aria-labelledby="bestseller-tab">
                 <div class="product-items">
                     <div class="row product-active">
@@ -528,8 +201,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-1.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-2.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-1.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-2.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -556,8 +229,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-10.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-11.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-10.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-11.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -585,8 +258,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-4.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-3.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-4.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -615,7 +288,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-12.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-12.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -643,7 +316,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-5.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-5.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -670,8 +343,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-16.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-6.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-16.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-6.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -700,8 +373,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-6.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-7.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-6.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-7.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -728,7 +401,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-13.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-13.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -756,7 +429,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-8.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-8.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -783,8 +456,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-14.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-15.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-14.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-15.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -812,8 +485,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-9.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-3.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-9.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -840,7 +513,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-9.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-9.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -869,8 +542,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-9.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-3.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-9.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -897,7 +570,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-9.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-9.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -925,6 +598,7 @@
                     </div> <!-- row -->
                 </div> <!-- product items -->
             </div>
+
             <div class="tab-pane fade" id="featured" role="tabpanel" aria-labelledby="featured-tab">
                 <div class="product-items">
                     <div class="row product-active">
@@ -932,8 +606,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-1.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-2.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-1.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-2.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -960,8 +634,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-10.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-11.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-10.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-11.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -989,8 +663,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-4.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-3.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-4.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1019,7 +693,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-12.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-12.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1047,7 +721,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-5.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-5.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1074,8 +748,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-16.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-6.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-16.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-6.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1104,8 +778,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-6.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-7.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-6.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-7.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1132,7 +806,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-13.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-13.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1160,7 +834,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-8.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-8.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1187,8 +861,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-14.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-15.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-14.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-15.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1216,8 +890,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-9.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-3.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-9.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1244,7 +918,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-9.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-9.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1273,8 +947,8 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-3.jpg" alt="product">
-                                        <img class="second-image" src="assets/images/product/product-9.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-3.jpg" alt="product">
+                                        <img class="second-image" src="~/images/product/product-9.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1301,7 +975,7 @@
                             <div class="single-product mt-30">
                                 <div class="product-image">
                                     <a href="single-product.html">
-                                        <img class="first-image" src="assets/images/product/product-9.jpg" alt="product">
+                                        <img class="first-image" src="~/images/product/product-9.jpg" alt="product">
                                     </a>
                                     <ul class="product-meta">
                                         <li><a href="#"><i class="icon ion-bag"></i></a></li>
@@ -1490,83 +1164,64 @@
 </section>
 
 <!--====== Special Products Part Ends ======-->
-
 <!--====== Brand Part Start ======-->
 <!--====== Features Banner Part Start ======-->
 
 @await Component.InvokeAsync("CompanySliderService")
 
-
 <!--====== Brand Part Ends ======-->
 <!--====== Features Banner Part Ends ======-->
-
 <!--====== Blog Part Start ======-->
 
 <section class="blog-area blog-bg pt-100 pb-100">
     <div class="container">
         <div class="row blog-active">
-            <div class="col-lg-4">
-                <div class="single-blog">
-                    <div class="blag-image">
-                        <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-1.jpg" alt="Blog"></a>
-                        <p class="meta-date">
-                            <span class="day">05</span>
-                            <span class="month">Dec</span>
-                        </p>
-                    </div>
-                    <div class="blag-content">
-                        <h2 class="blog-title"><a href="blog-single-left-sidebar.html">This is Third Post For XipBlog</a></h2>
-                        <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum ...</p>
-                    </div>
-                </div> <!-- single blog -->
-            </div>
-            <div class="col-lg-4">
-                <div class="single-blog">
-                    <div class="blag-image">
-                        <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-2.jpg" alt="Blog"></a>
-                        <p class="meta-date">
-                            <span class="day">05</span>
-                            <span class="month">Dec</span>
-                        </p>
-                    </div>
-                    <div class="blag-content">
-                        <h2 class="blog-title"><a href="blog-single-left-sidebar.html">This is Third Post For XipBlog</a></h2>
-                        <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum ...</p>
-                    </div>
-                </div> <!-- single blog -->
-            </div>
-            <div class="col-lg-4">
-                <div class="single-blog">
-                    <div class="blag-image">
-                        <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-3.jpg" alt="Blog"></a>
-                        <p class="meta-date">
-                            <span class="day">05</span>
-                            <span class="month">Dec</span>
-                        </p>
-                    </div>
-                    <div class="blag-content">
-                        <h2 class="blog-title"><a href="blog-single-left-sidebar.html">This is Third Post For XipBlog</a></h2>
-                        <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum ...</p>
-                    </div>
-                </div> <!-- single blog -->
-            </div>
-            <div class="col-lg-4">
-                <div class="single-blog">
-                    <div class="blag-image">
-                        <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-4.jpg" alt="Blog"></a>
-                        <p class="meta-date">
-                            <span class="day">05</span>
-                            <span class="month">Dec</span>
-                        </p>
-                    </div>
-                    <div class="blag-content">
-                        <h2 class="blog-title"><a href="blog-single-left-sidebar.html">This is Third Post For XipBlog</a></h2>
-                        <p>simply dummy text of the printing and typesetting industry. Lorem Ipsum ...</p>
-                    </div>
-                </div> <!-- single blog -->
-            </div>
-        </div> <!-- row -->
-    </div> <!-- container -->
+
+            @foreach (var item in Model.Blogs)
+            {
+                <div class="col-lg-4">
+                    <div class="single-blog">
+                        <div class="blag-image">
+
+                            @foreach (var element in ViewBag.photos)
+                            {
+                                if (element.BlogId == item.Id && element.PhotoUrl != null)
+                                {
+                                    <div class="gallery-item">
+                                        <a asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id"><img src="~/assets/images/@element.PhotoUrl" style="width:350px" height="258" alt="blog"></a>
+                                    </div>
+                                }
+
+                                if (element.BlogId == item.Id && element.VideoUrl != null)
+                                {
+                                    <div class="blog-post-video">
+                                        <iframe src="@element.VideoUrl" allow="autoplay; encrypted-media" allowfullscreen="" width="560"></iframe>
+                                    </div>
+                                }
+                            }
+                            <p class="meta-date">
+                                <span class="day">@item.Date</span>
+                            </p>
+                        </div>
+                        <div class="blag-content">
+                            <h2 class="blog-title"><a href="blog-single-left-sidebar.html">@item.Title</a></h2>
+                            <p>
+                                @{
+                                    string ShortDesc = item.Description;
+                                    if (ShortDesc.Length > 218)
+                                    {
+                                        ShortDesc = ShortDesc.Substring(0, 218) + "...";
+                                    }
+                                }
+                                @Html.Raw(ShortDesc)
+                            </p>
+                        </div>
+                    </div> <!-- single blog -->
+                </div>
+            }
+        </div>
+    </div> <!-- row -->
+    <!-- container -->
 </section>
 
 <!--====== Blog Part Ends ======-->

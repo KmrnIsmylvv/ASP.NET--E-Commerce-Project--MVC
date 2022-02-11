@@ -29,6 +29,13 @@ namespace MVC__E_Commerce_Project.Controllers
             var photos = _context.BlogPhotos.ToList();
             ViewBag.photos = photos;
 
+            //RECENT POSTS
+            var recentPosts = _context.Blogs
+                .Take(4)
+                .ToList();
+
+            ViewBag.RecentPosts = recentPosts;
+
             return View(blog);
         }
 
@@ -38,7 +45,7 @@ namespace MVC__E_Commerce_Project.Controllers
             List<Comments> comments = await _context.Comment
                 .Where(c => c.BlogId == id)
                 .Include(x => x.User).ToListAsync();
-            
+
             var blog = await _context.Blogs
                 .Include(b => b.BlogPhotos)
                 .FirstOrDefaultAsync(b => b.Id == id);
@@ -49,6 +56,15 @@ namespace MVC__E_Commerce_Project.Controllers
                 .Select(t => t.Tag)
                 .ToListAsync();
 
+            var photos = _context.BlogPhotos.ToList();
+
+            //RECENT POSTS
+            var recentPosts = _context.Blogs
+                .Take(4)
+                .ToList();
+
+            ViewBag.photos = photos;
+            ViewBag.RecentPosts = recentPosts;
             ViewBag.user = user.FullName;
             ViewBag.tags = tags;
             ViewBag.comment = comments;

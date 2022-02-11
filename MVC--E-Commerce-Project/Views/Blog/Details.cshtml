@@ -75,6 +75,7 @@
                         </div>
                     </div>
                 </div> <!-- blog single posts -->
+                
                 <div class="blog-single-related-post pt-50">
                     <div class="section-title text-center">
                         <h2 class="title">Related Post</h2>
@@ -130,6 +131,7 @@
                         </div>
                     </div>
                 </div>
+               
                 <div class="blog-single-comment">
                     <div class="blog-comments">
                         <h4 class="comment-title">@ViewBag.comment.Count Comments</h4>
@@ -213,44 +215,37 @@
 
                     <div class="sidebar-widget mt-30">
                         <h4 class="sidebar-title">Resent Post</h4>
-                        <div class="blog-sidebar-post">
-                            <div class="single-mini-post d-flex">
-                                <div class="post-thumb">
-                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-1.jpg" alt="blog"></a>
-                                </div>
-                                <div class="post-content media-body">
-                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
-                                    <span class="date">April 24, 2020</span>
-                                </div>
-                            </div>
-                            <div class="single-mini-post d-flex">
-                                <div class="post-thumb">
-                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-2.jpg" alt="blog"></a>
-                                </div>
-                                <div class="post-content media-body">
-                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
-                                    <span class="date">April 24, 2020</span>
-                                </div>
-                            </div>
-                            <div class="single-mini-post d-flex">
-                                <div class="post-thumb">
-                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-3.jpg" alt="blog"></a>
-                                </div>
-                                <div class="post-content media-body">
-                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
-                                    <span class="date">April 24, 2020</span>
-                                </div>
-                            </div>
-                            <div class="single-mini-post d-flex">
-                                <div class="post-thumb">
-                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-4.jpg" alt="blog"></a>
-                                </div>
-                                <div class="post-content media-body">
-                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
-                                    <span class="date">April 24, 2020</span>
+                        @foreach (var item in ViewBag.RecentPosts)
+                        {
+                            <div class="blog-sidebar-post">
+                                <div class="single-mini-post d-flex">
+                                    <div class="post-thumb">
+                                        @foreach (var element in ViewBag.photos)
+                                        {
+                                            if (element.BlogId == item.Id && element.PhotoUrl != null)
+                                            {
+                                                <div class="gallery-item">
+                                                    <a asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id"><img src="~/assets/images/@element.PhotoUrl" style="width:465px" height="342" alt="blog"></a>
+                                                </div>
+                                            }
+
+                                            if (element.BlogId == item.Id && element.VideoUrl != null)
+                                            {
+                                                <div class="blog-post-video">
+                                                    <iframe src="@element.VideoUrl" encrypted-media" allowfullscreen="" width="152" height="90"></iframe>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="post-content media-body">
+                                        <h5 class="post-title"><a asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id">@item.Title</a></h5>
+                                        <span class="date">@item.Date</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+
+
                     </div> <!-- sidebar widget -->
 
                     <div class="sidebar-widget mt-30">
