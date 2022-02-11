@@ -35,6 +35,10 @@ namespace MVC__E_Commerce_Project.Controllers
         // GET: BlogController/Details/5
         public async Task<ActionResult> Details(int id)
         {
+            List<Comments> comments = await _context.Comment
+                .Where(c => c.BlogId == id)
+                .Include(x => x.User).ToListAsync();
+            
             var blog = await _context.Blogs
                 .Include(b => b.BlogPhotos)
                 .FirstOrDefaultAsync(b => b.Id == id);
@@ -47,6 +51,7 @@ namespace MVC__E_Commerce_Project.Controllers
 
             ViewBag.user = user.FullName;
             ViewBag.tags = tags;
+            ViewBag.comment = comments;
 
             return View(blog);
         }

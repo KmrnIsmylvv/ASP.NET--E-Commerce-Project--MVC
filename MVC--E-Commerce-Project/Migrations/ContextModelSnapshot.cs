@@ -271,6 +271,34 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.ToTable("Colors");
                 });
 
+            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Comments", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comment");
+                });
+
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.CompanySlider", b =>
                 {
                     b.Property<int>("Id")
@@ -710,6 +738,23 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.Navigation("MainCategory");
                 });
 
+            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Comments", b =>
+                {
+                    b.HasOne("MVC__E_Commerce_Project.Models.Blog", "Blog")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MVC__E_Commerce_Project.Models.AppUser", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Blog");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Message", b =>
                 {
                     b.HasOne("MVC__E_Commerce_Project.Models.AppUser", "User")
@@ -840,12 +885,16 @@ namespace MVC__E_Commerce_Project.Migrations
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.AppUser", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Blog", b =>
                 {
                     b.Navigation("BlogPhotos");
+
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Brand", b =>

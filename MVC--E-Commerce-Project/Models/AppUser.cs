@@ -15,5 +15,7 @@ namespace MVC__E_Commerce_Project.Models
         public string Photo { get; set; }
 
         public List<Message> Messages { get; set; }
+        public List<Comments> Comments { get; set; }
+
     }
 }

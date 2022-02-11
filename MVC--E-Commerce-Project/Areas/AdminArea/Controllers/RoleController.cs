@@ -58,7 +58,6 @@ namespace MVC__E_Commerce_Project.Areas.AdminArea.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-
         public async Task<IActionResult> Delete(string id)
         {
             var role = _userManager.FindByIdAsync(id);
@@ -77,24 +76,25 @@ namespace MVC__E_Commerce_Project.Areas.AdminArea.Controllers
                 UserId = user.Id,
                 Roles = _roleManager.Roles.ToList(),
                 UserRoles = await _userManager.GetRolesAsync(user)
+
             };
             return View(updateUserRole);
         }
-
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Update(string id, IList<string> Roles)
+        public async Task<IActionResult> Update(string id, List<string> roles)
         {
+
             var user = await _userManager.FindByIdAsync(id);
-            var allRoles = _roleManager.Roles.ToList();
+            var dbRoles = _roleManager.Roles.ToList();
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            var addedRoles = Roles.Except(userRoles);
-            var removedRoles = userRoles.Except(Roles);
-            await _userManager.AddToRolesAsync(user, addedRoles);
-            await _userManager.RemoveFromRolesAsync(user, removedRoles);
+            var addedRole = roles.Except(userRoles);
+            var removedRole = userRoles.Except(roles);
+            await _userManager.AddToRolesAsync(user, addedRole);
+            await _userManager.RemoveFromRolesAsync(user, removedRole);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("index");
         }
     }
 }

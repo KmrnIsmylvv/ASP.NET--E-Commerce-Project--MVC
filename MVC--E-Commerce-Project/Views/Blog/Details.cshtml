@@ -1,5 +1,15 @@
-﻿@model Blog
+﻿@using Microsoft.AspNetCore.Http;
+@using System.Security.Claims;
 
+@model Blog
+@*// get id of the logged in user *@
+@{
+    string UserId = null;
+    if (User.Identity.IsAuthenticated)
+    {
+        UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+    }
+}
 <!--====== Breadcrumb Part Start ======-->
 
 <div class="breadcrumb-area">
@@ -15,7 +25,6 @@
 </div>
 
 <!--====== Breadcrumb Part Ends ======-->
-
 <!--====== Blog Part Start ======-->
 
 <section class="blog-page pt-20">
@@ -24,17 +33,26 @@
             <div class="col-lg-9">
                 <div class="blog-single-posts mt-30">
 
-                    <div class="blog-single-image">
-                        <img src="~/assets/images/@Model.BlogPhotos[0].PhotoUrl" alt="blog">
-                    </div>
+                    @if (Model.BlogPhotos[0].PhotoUrl != null)
+                    {
+                        <div class="blog-single-image">
+                            <img src="~/assets/images/@Model.BlogPhotos[0].PhotoUrl" alt="blog">
+                        </div>
+                    }
+                    else if (Model.BlogPhotos[0].VideoUrl != null)
+                    {
+                        <div class="blog-post-video">
+                            <iframe src="@Model.BlogPhotos[0].VideoUrl" allow="autoplay; encrypted-media" allowfullscreen="" width="700" height="400"></iframe>
+                        </div>
+                    }
 
                     <div class="blog-single-content">
                         <h4 class="blog-title">@Model.Title</h4>
                         <ul class="blog-meta">
                             <li><a href="#"><i class="fas fa-user-circle"></i>@ViewBag.user</a></li>
-                            <li><a href="#"><i class="fas fa-calendar-alt"></i>@Model.Date</a></li>
+                            <li><a href="#"><i class="fas fa-calendar-alt"></i><time datetime="@Model.Date"></time></a></li>
                         </ul>
-                        <p>@Html.Raw(Model.Description)</p>
+                        <p> @Html.Raw(Model.Description)</p>
                     </div>
                     <div class="blog-single-tags-share d-sm-flex justify-content-between">
                         <div class="blog-single-tags d-flex">
@@ -114,97 +132,53 @@
                 </div>
                 <div class="blog-single-comment">
                     <div class="blog-comments">
-                        <h4 class="comment-title">3 Comments</h4>
-
+                        <h4 class="comment-title">@ViewBag.comment.Count Comments</h4>
                         <ul class="comments-list">
-                            <li>
-                                <div class="single-comment d-sm-flex">
-                                    <div class="comment-author">
-                                        <img src="assets/images/comment-author.jpg" alt="author">
-                                    </div>
-                                    <div class="comment-content media-body">
-                                        <div class="comment-meta">
-                                            <h5 class="author-name">Admin</h5>
-                                            <span class="date">February 16, 2020 at 1:38 am</span>
+                            @foreach (var item in ViewBag.comment)
+                            {
+                                <li>
+                                    <div class="single-comment d-sm-flex">
+                                        <div class="comment-author">
+                                            <img src="" alt="author" width="50" height="50">
                                         </div>
-                                        <p>But I must explain to you how all this mistaken idea of denouncing pleasure</p>
-                                        <div class="comment-replay">
-                                            <a href="#">Replay</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="comments-replay">
-                                    <li>
-                                        <div class="single-comment d-sm-flex">
-                                            <div class="comment-author">
-                                                <img src="assets/images/comment-author.jpg" alt="author">
+                                        <div class="comment-content media-body">
+                                            <div class="comment-meta">
+                                                <h5 class="author-name">@item.User.FullName</h5>
+                                                <span class="date"><time>@item.Date</time></span>
                                             </div>
-                                            <div class="comment-content media-body">
-                                                <div class="comment-meta">
-                                                    <h5 class="author-name">Admin</h5>
-                                                    <span class="date">February 16, 2020 at 1:38 am</span>
-                                                </div>
-                                                <p>But I must explain to you how all this mistaken idea of denouncing pleasure</p>
+                                            <p>@item.Text</p>
+                                            @if (item.UserId == UserId)
+                                            {
                                                 <div class="comment-replay">
-                                                    <a href="#">Replay</a>
+                                                    <a asp-controller="Comment" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <div class="single-comment d-sm-flex">
-                                    <div class="comment-author">
-                                        <img src="assets/images/comment-author.jpg" alt="author">
-                                    </div>
-                                    <div class="comment-content media-body">
-                                        <div class="comment-meta">
-                                            <h5 class="author-name">Admin</h5>
-                                            <span class="date">February 16, 2020 at 1:38 am</span>
-                                        </div>
-                                        <p>But I must explain to you how all this mistaken idea of denouncing pleasure</p>
-                                        <div class="comment-replay">
-                                            <a href="#">Replay</a>
+                                            }
                                         </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
+                            }
                         </ul>
                     </div>
                     <div class="blog-comment-form">
                         <h4 class="comment-title">Leave a Reply </h4>
                         <p>Your email address will not be published. Required fields are marked *</p>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="single-form">
-                                    <label>Your Review:</label>
-                                    <textarea placeholder="Write a review"></textarea>
+
+                            <form asp-controller="Comment" asp-action="Create" method="post">
+                                <div class="col-md-12">
+                                    <div class="single-form">
+                                        <input type="hidden" name="BlogId" value="@Model.Id" />
+                                        <label>Your Review:</label>
+                                        <textarea name="Text" placeholder="Write a review" style="width:100%!important"></textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="single-form">
-                                    <label>Name:</label>
-                                    <input type="text" placeholder="Name">
+                                <div class="col-md-12">
+                                    <div class="single-form">
+                                        <button type="submit" class="main-btn">Post Comment</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="single-form">
-                                    <label>Email:</label>
-                                    <input type="email" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="single-form">
-                                    <label>Website:</label>
-                                    <input type="email" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="single-form">
-                                    <button class="main-btn">Post Comment</button>
-                                </div>
-                            </div>
+                            </form>
+
                         </div>
                     </div>
                 </div>

@@ -6,6 +6,20 @@
 </div>
 
 <!--====== Contact PART ENDS ======-->
+<!--====== Breadcrumb Part Start ======-->
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Contact</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
 <!--====== Contact Part Start ======-->
 
 <section class="contact-page pt-20">
@@ -142,15 +156,15 @@
                     data: formData,
                     success: function (response) {
                         Swal.fire({
-                                position: 'top',
-                                icon: 'success',
-                                title: 'Your message has sended',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then(function (result) {
+                            position: 'top',
+                            icon: 'success',
+                            title: 'Your message has sended',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(function (result) {
                             // document.getElementsByClassName("cbr-alert")[0].style.display = "none"
-                                $("#Message_Subject").val("");
-                                $("#Message_Text").val("");
+                            $("#Message_Subject").val("");
+                            $("#Message_Text").val("");
                         })
                     },
                     error: function (error) { }

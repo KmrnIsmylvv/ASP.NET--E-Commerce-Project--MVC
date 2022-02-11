@@ -20,9 +20,12 @@ namespace MVC__E_Commerce_Project.Models
         public string UserId { get; set; }
         public AppUser User { get; set; }
 
-        
+
         public List<BlogPhoto> BlogPhotos { get; set; }
-        
+
+        public List<Comments> Comments { get; set; }
+
+
         [NotMapped]
         public IFormFile[] Photos { get; set; }
     }

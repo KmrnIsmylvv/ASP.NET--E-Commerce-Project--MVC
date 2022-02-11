@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVC__E_Commerce_Project.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220208182045_addProductTables")]
-    partial class addProductTables
+    [Migration("20220212151434_Tablea")]
+    partial class Tablea
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,6 +92,9 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -113,6 +116,60 @@ namespace MVC__E_Commerce_Project.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Blog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("MVC__E_Commerce_Project.Models.BlogPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhotoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogPhotos");
                 });
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Brand", b =>
@@ -216,6 +273,34 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.ToTable("Colors");
                 });
 
+            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Comments", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comment");
+                });
+
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.CompanySlider", b =>
                 {
                     b.Property<int>("Id")
@@ -307,12 +392,14 @@ namespace MVC__E_Commerce_Project.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<string>("ProductCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
@@ -370,6 +457,27 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImages");
+                });
+
+            modelBuilder.Entity("MVC__E_Commerce_Project.Models.ProductRelation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductRelations");
                 });
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.ProductTag", b =>
@@ -576,6 +684,34 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Blog", b =>
+                {
+                    b.HasOne("MVC__E_Commerce_Project.Models.Product", "Product")
+                        .WithMany("Blogs")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MVC__E_Commerce_Project.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MVC__E_Commerce_Project.Models.BlogPhoto", b =>
+                {
+                    b.HasOne("MVC__E_Commerce_Project.Models.Blog", "Blog")
+                        .WithMany("BlogPhotos")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+                });
+
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.BrandCategory", b =>
                 {
                     b.HasOne("MVC__E_Commerce_Project.Models.Brand", "Brand")
@@ -602,6 +738,23 @@ namespace MVC__E_Commerce_Project.Migrations
                         .HasForeignKey("MainCategoryId");
 
                     b.Navigation("MainCategory");
+                });
+
+            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Comments", b =>
+                {
+                    b.HasOne("MVC__E_Commerce_Project.Models.Blog", "Blog")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MVC__E_Commerce_Project.Models.AppUser", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Blog");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Message", b =>
@@ -734,7 +887,16 @@ namespace MVC__E_Commerce_Project.Migrations
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.AppUser", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Blog", b =>
+                {
+                    b.Navigation("BlogPhotos");
+
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Brand", b =>
@@ -763,6 +925,8 @@ namespace MVC__E_Commerce_Project.Migrations
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Product", b =>
                 {
+                    b.Navigation("Blogs");
+
                     b.Navigation("Images");
 
                     b.Navigation("ProductColors");
