@@ -5566,17 +5566,17 @@ p {
         margin-top: 15px;
         padding-top: 15px;
         font-size: 14px; } }
-  .blog-single-posts .blog-single-content .blockquote {
+  .blog-single-posts .blog-single-content blockquote {
     margin-bottom: 0;
     margin-top: 25px;
     padding-left: 80px; }
     @media (max-width: 767px) {
-      .blog-single-posts .blog-single-content .blockquote {
+      .blog-single-posts .blog-single-content blockquote {
         padding-left: 15px; } }
     @media only screen and (min-width: 576px) and (max-width: 767px) {
-      .blog-single-posts .blog-single-content .blockquote {
+      .blog-single-posts .blog-single-content blockquote {
         padding-left: 50px; } }
-    .blog-single-posts .blog-single-content .blockquote p {
+    .blog-single-posts .blog-single-content blockquote p {
       font-style: italic;
       padding: 15px 14px;
       border-left: 3px solid #e52e06; }

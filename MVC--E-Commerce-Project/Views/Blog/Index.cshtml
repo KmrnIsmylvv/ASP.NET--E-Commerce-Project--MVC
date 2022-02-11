@@ -1,0 +1,170 @@
+﻿@model IEnumerable<Blog>
+
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Blog</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+<!--====== Blog Part Start ======-->
+
+<section class="blog-page pt-20">
+    <div class="container-fluid custom-container">
+        <div class="row flex-lg-row-reverse justify-content-end">
+            <div class="col-lg-9">
+                <div class="blog-posts">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {<div class="col-md-6">
+                                <div class="single-blog-post blog-grid-post mt-30">
+                                    <div class="blog-post-media">
+                                        <div class="blog-gallery">
+                                            @foreach (var element in ViewBag.photos)
+                                            {
+                                                if (element.BlogId == item.Id && element.PhotoUrl != null)
+                                                {
+                                                    <div class="gallery-item">
+                                                        <a href="blog-single-left-sidebar.html"><img src="~/assets/images/@element.PhotoUrl" alt="blog"></a>
+                                                    </div>
+                                                }
+
+                                                if (element.BlogId == item.Id && element.VideoUrl != null)
+                                                {
+                                                    <div class="blog-post-video">
+                                                        <iframe src="@element.VideoUrl" allow="autoplay; encrypted-media" allowfullscreen="" width="560"></iframe>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="blog-post-content">
+                                        <h4 class="blog-title"><a href="blog-single-left-sidebar.html">@item.Title</a></h4>
+                                        <ul class="blog-meta">
+                                            <li><a href="#"><i class="fas fa-user-circle"></i> Admin</a></li>
+                                            <li><a href="#"><i class="fas fa-calendar-alt"></i>@item.Date</a></li>
+                                        </ul>
+                                        <p>
+                                            @{
+                                                string ShortDesc = item.Description;
+                                                if (ShortDesc.Length > 218)
+                                                {
+                                                    ShortDesc = ShortDesc.Substring(0, 218) + "...";
+                                                }
+                                            }
+                                            @ShortDesc
+                                        </p>
+                                        <a asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id" class="main-btn main-btn-2">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div> <!-- blog posts -->
+
+                <ul class="pagination justify-content-center mt-30">
+                    <li><a href="#"><i class="fal fa-chevron-left"></i></a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#"><i class="fal fa-chevron-right"></i></a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="blog-sidebar">
+                    <div class="sidebar-widget mt-30">
+                        <h4 class="sidebar-title">Search</h4>
+                        <div class="blog-sidebar-search">
+                            <form action="#">
+                                <input type="text" placeholder="Search">
+                                <button><i class="fas fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div> <!-- sidebar widget -->
+
+                    <div class="sidebar-widget mt-30">
+                        <h4 class="sidebar-title">Categories</h4>
+                        <div class="blog-sidebar-categories">
+                            <ul class="categories-list">
+                                <li><a href="blog-grid-left-sidebar.html">Dresses (20)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Jackets & Coats (9)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Sweaters (5)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Jeans (11)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Blouses & Shirts (3)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Electronic Cigarettes (6)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Bags & Cases (4)</a></li>
+                            </ul>
+                        </div>
+                    </div> <!-- sidebar widget -->
+
+                    <div class="sidebar-widget mt-30">
+                        <h4 class="sidebar-title">Resent Post</h4>
+                        <div class="blog-sidebar-post">
+                            <div class="single-mini-post d-flex">
+                                <div class="post-thumb">
+                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-1.jpg" alt="blog"></a>
+                                </div>
+                                <div class="post-content media-body">
+                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
+                                    <span class="date">April 24, 2020</span>
+                                </div>
+                            </div>
+                            <div class="single-mini-post d-flex">
+                                <div class="post-thumb">
+                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-2.jpg" alt="blog"></a>
+                                </div>
+                                <div class="post-content media-body">
+                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
+                                    <span class="date">April 24, 2020</span>
+                                </div>
+                            </div>
+                            <div class="single-mini-post d-flex">
+                                <div class="post-thumb">
+                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-3.jpg" alt="blog"></a>
+                                </div>
+                                <div class="post-content media-body">
+                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
+                                    <span class="date">April 24, 2020</span>
+                                </div>
+                            </div>
+                            <div class="single-mini-post d-flex">
+                                <div class="post-thumb">
+                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-4.jpg" alt="blog"></a>
+                                </div>
+                                <div class="post-content media-body">
+                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
+                                    <span class="date">April 24, 2020</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- sidebar widget -->
+
+                    <div class="sidebar-widget mt-30">
+                        <h4 class="sidebar-title">Popular Tags</h4>
+                        <div class="blog-sidebar-tags">
+                            <ul class="tag-list">
+                                <li><a href="#">New</a></li>
+                                <li><a href="#">Bags</a></li>
+                                <li><a href="#">Kids</a></li>
+                                <li><a href="#">Electronic</a></li>
+                                <li><a href="#">Shirts</a></li>
+                                <li><a href="#">Game</a></li>
+                                <li><a href="#">Camera</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- blog sidebar -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</section>
+
+<!--====== Blog Part Ends ======-->

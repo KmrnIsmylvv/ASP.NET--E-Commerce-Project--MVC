@@ -36,10 +36,13 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
         }
 
         // GET: ProductController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null) return NotFound();
+            
+        //    Product product
+        
+        //}
 
         public ActionResult CallCategory(int? id)
         {
@@ -162,7 +165,7 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
         }
 
         // GET: ProductController/Edit/5
-        public async  Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
             Product product = await _context.Products.FindAsync(id);
@@ -177,7 +180,7 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
             var campaign = new SelectList(_context.Campaigns.OrderBy(l => l.Discount)
              .ToDictionary(us => us.Id, us => us.Discount), "Key", "Value");
             ViewBag.CampaignId = campaign;
-           
+
             var photos = _context.ProductImages.Where(p => p.ProductId == id).ToList();
             ViewBag.photos = photos;
 
@@ -330,7 +333,7 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
                         string fileName = await photo.SaveImageAsync(_env.WebRootPath, "assets/images/product/");
 
                         if (count == 0) productPhoto.IsMain = true;
-                        
+
                         productPhoto.ImageUrl = fileName;
                         productPhoto.ProductId = newProduct.Id;
 
@@ -372,24 +375,92 @@ namespace E_commerce_BackFinal.Areas.Admin.Controllers
         }
 
         // GET: ProductController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null) return NotFound();
+
+            Product product = await _context.Products
+                .Include(p => p.Campaign)
+                .Include(p => p.Brand)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            var relation = await _context.ProductRelations
+                .Where(p => p.ProductId == id && p.BrandId == product.BrandId)
+                .FirstOrDefaultAsync();
+
+            Category category = await _context.Categories.FindAsync(relation.CategoryId);
+            ViewBag.category = category;
+
+            ViewBag.photo = _context.ProductImages
+               .Where(p => p.ProductId == product.Id && p.IsMain == true)
+               .FirstOrDefault();
+
+            ViewBag.color = await _context.ProductColors
+                .Where(p => p.ProductId == id)
+                .Select(c => c.Color)
+                .ToListAsync();
+
+            return View(product);
         }
 
-        // POST: ProductController/Delete/5
+        //POST: ProductController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, Product product)
         {
-            try
+            var currentProduct = await _context.Products.FindAsync(id);
+            if (currentProduct == null) return NotFound();
+
+            var productTags = await _context.ProductTags.Where(t => t.ProductId == id).ToListAsync();
+            if (productTags != null)
             {
-                return RedirectToAction(nameof(Index));
+                foreach (var item in productTags)
+                {
+                    _context.ProductTags.Remove(item);
+                    await _context.SaveChangesAsync();
+                }
             }
-            catch
+
+            var productColors = await _context.ProductColors
+                .Where(c => c.ProductId == id)
+                .ToListAsync();
+
+            if (productColors != null)
             {
-                return View();
+                foreach (var item in productColors)
+                {
+                    _context.ProductColors.Remove(item);
+                    await _context.SaveChangesAsync();
+                }
             }
+
+            var relationProduct = await _context.ProductRelations
+                .FirstOrDefaultAsync(p => p.ProductId == id && p.BrandId == currentProduct.BrandId);
+            _context.ProductRelations.Remove(relationProduct);
+
+            if (currentProduct.Photos != null)
+            {
+                var oldPhoto = _context.ProductImages
+                    .Where(p => p.ProductId == currentProduct.Id)
+                    .ToList();
+
+                foreach (var item in oldPhoto)
+                {
+                    string path = Path.Combine(_env.WebRootPath, "assets/images/product/", item.ImageUrl);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                    _context.ProductImages.Remove(item);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            _context.Products.Remove(currentProduct);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+
         }
     }
 }

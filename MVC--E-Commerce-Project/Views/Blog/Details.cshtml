@@ -1,0 +1,302 @@
+﻿@model Blog
+
+<!--====== Breadcrumb Part Start ======-->
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Blog" asp-action="Index">Blog</a></li>
+                <li class="breadcrumb-item active">Blog Single</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+
+<!--====== Blog Part Start ======-->
+
+<section class="blog-page pt-20">
+    <div class="container-fluid custom-container">
+        <div class="row flex-lg-row-reverse justify-content-end">
+            <div class="col-lg-9">
+                <div class="blog-single-posts mt-30">
+
+                    <div class="blog-single-image">
+                        <img src="~/assets/images/@Model.BlogPhotos[0].PhotoUrl" alt="blog">
+                    </div>
+
+                    <div class="blog-single-content">
+                        <h4 class="blog-title">@Model.Title</h4>
+                        <ul class="blog-meta">
+                            <li><a href="#"><i class="fas fa-user-circle"></i>@ViewBag.user</a></li>
+                            <li><a href="#"><i class="fas fa-calendar-alt"></i>@Model.Date</a></li>
+                        </ul>
+                        <p>@Html.Raw(Model.Description)</p>
+                    </div>
+                    <div class="blog-single-tags-share d-sm-flex justify-content-between">
+                        <div class="blog-single-tags d-flex">
+                            <span class="title">Tags: </span>
+                            <ul class="tag-list">
+                                @foreach (var item in ViewBag.tags)
+                                {
+                                    <li><a>@item.Name</a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="blog-single-share d-flex">
+                            <span class="title">Share:</span>
+                            <ul class="social">
+                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- blog single posts -->
+                <div class="blog-single-related-post pt-50">
+                    <div class="section-title text-center">
+                        <h2 class="title">Related Post</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="single-blog-post blog-grid-post related-post mt-30">
+                                <div class="blog-post-media">
+                                    <div class="blog-image">
+                                        <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-2.jpg" alt="blog"></a>
+                                    </div>
+                                </div>
+                                <div class="blog-post-content">
+                                    <h4 class="blog-title"><a href="blog-single-left-sidebar.html">This is Third Post For XipBlog</a></h4>
+                                    <ul class="blog-meta">
+                                        <li><a href="#"><i class="fas fa-user-circle"></i> Admin</a></li>
+                                        <li><a href="#"><i class="fas fa-calendar-alt"></i> 24 April, 2020</a></li>
+                                    </ul>
+                                </div>
+                            </div> <!-- single blog post -->
+                        </div>
+                        <div class="col-md-4">
+                            <div class="single-blog-post blog-grid-post related-post mt-30">
+                                <div class="blog-post-media">
+                                    <div class="blog-image">
+                                        <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-3.jpg" alt="blog"></a>
+                                    </div>
+                                </div>
+                                <div class="blog-post-content">
+                                    <h4 class="blog-title"><a href="blog-single-left-sidebar.html">This is Third Post For XipBlog</a></h4>
+                                    <ul class="blog-meta">
+                                        <li><a href="#"><i class="fas fa-user-circle"></i> Admin</a></li>
+                                        <li><a href="#"><i class="fas fa-calendar-alt"></i> 24 April, 2020</a></li>
+                                    </ul>
+                                </div>
+                            </div> <!-- single blog post -->
+                        </div>
+                        <div class="col-md-4">
+                            <div class="single-blog-post blog-grid-post related-post mt-30">
+                                <div class="blog-post-media">
+                                    <div class="blog-image">
+                                        <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-4.jpg" alt="blog"></a>
+                                    </div>
+                                </div>
+                                <div class="blog-post-content">
+                                    <h4 class="blog-title"><a href="blog-single-left-sidebar.html">This is Third Post For XipBlog</a></h4>
+                                    <ul class="blog-meta">
+                                        <li><a href="#"><i class="fas fa-user-circle"></i> Admin</a></li>
+                                        <li><a href="#"><i class="fas fa-calendar-alt"></i> 24 April, 2020</a></li>
+                                    </ul>
+                                </div>
+                            </div> <!-- single blog post -->
+                        </div>
+                    </div>
+                </div>
+                <div class="blog-single-comment">
+                    <div class="blog-comments">
+                        <h4 class="comment-title">3 Comments</h4>
+
+                        <ul class="comments-list">
+                            <li>
+                                <div class="single-comment d-sm-flex">
+                                    <div class="comment-author">
+                                        <img src="assets/images/comment-author.jpg" alt="author">
+                                    </div>
+                                    <div class="comment-content media-body">
+                                        <div class="comment-meta">
+                                            <h5 class="author-name">Admin</h5>
+                                            <span class="date">February 16, 2020 at 1:38 am</span>
+                                        </div>
+                                        <p>But I must explain to you how all this mistaken idea of denouncing pleasure</p>
+                                        <div class="comment-replay">
+                                            <a href="#">Replay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="comments-replay">
+                                    <li>
+                                        <div class="single-comment d-sm-flex">
+                                            <div class="comment-author">
+                                                <img src="assets/images/comment-author.jpg" alt="author">
+                                            </div>
+                                            <div class="comment-content media-body">
+                                                <div class="comment-meta">
+                                                    <h5 class="author-name">Admin</h5>
+                                                    <span class="date">February 16, 2020 at 1:38 am</span>
+                                                </div>
+                                                <p>But I must explain to you how all this mistaken idea of denouncing pleasure</p>
+                                                <div class="comment-replay">
+                                                    <a href="#">Replay</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div class="single-comment d-sm-flex">
+                                    <div class="comment-author">
+                                        <img src="assets/images/comment-author.jpg" alt="author">
+                                    </div>
+                                    <div class="comment-content media-body">
+                                        <div class="comment-meta">
+                                            <h5 class="author-name">Admin</h5>
+                                            <span class="date">February 16, 2020 at 1:38 am</span>
+                                        </div>
+                                        <p>But I must explain to you how all this mistaken idea of denouncing pleasure</p>
+                                        <div class="comment-replay">
+                                            <a href="#">Replay</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="blog-comment-form">
+                        <h4 class="comment-title">Leave a Reply </h4>
+                        <p>Your email address will not be published. Required fields are marked *</p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="single-form">
+                                    <label>Your Review:</label>
+                                    <textarea placeholder="Write a review"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="single-form">
+                                    <label>Name:</label>
+                                    <input type="text" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="single-form">
+                                    <label>Email:</label>
+                                    <input type="email" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="single-form">
+                                    <label>Website:</label>
+                                    <input type="email" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="single-form">
+                                    <button class="main-btn">Post Comment</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="blog-sidebar">
+                    <div class="sidebar-widget mt-30">
+                        <h4 class="sidebar-title">Search</h4>
+                        <div class="blog-sidebar-search">
+                            <form action="#">
+                                <input type="text" placeholder="Search">
+                                <button><i class="fas fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div> <!-- sidebar widget -->
+
+                    <div class="sidebar-widget mt-30">
+                        <h4 class="sidebar-title">Categories</h4>
+                        <div class="blog-sidebar-categories">
+                            <ul class="categories-list">
+                                <li><a href="blog-grid-left-sidebar.html">Dresses (20)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Jackets & Coats (9)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Sweaters (5)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Jeans (11)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Blouses & Shirts (3)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Electronic Cigarettes (6)</a></li>
+                                <li><a href="blog-grid-left-sidebar.html">Bags & Cases (4)</a></li>
+                            </ul>
+                        </div>
+                    </div> <!-- sidebar widget -->
+
+                    <div class="sidebar-widget mt-30">
+                        <h4 class="sidebar-title">Resent Post</h4>
+                        <div class="blog-sidebar-post">
+                            <div class="single-mini-post d-flex">
+                                <div class="post-thumb">
+                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-1.jpg" alt="blog"></a>
+                                </div>
+                                <div class="post-content media-body">
+                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
+                                    <span class="date">April 24, 2020</span>
+                                </div>
+                            </div>
+                            <div class="single-mini-post d-flex">
+                                <div class="post-thumb">
+                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-2.jpg" alt="blog"></a>
+                                </div>
+                                <div class="post-content media-body">
+                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
+                                    <span class="date">April 24, 2020</span>
+                                </div>
+                            </div>
+                            <div class="single-mini-post d-flex">
+                                <div class="post-thumb">
+                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-3.jpg" alt="blog"></a>
+                                </div>
+                                <div class="post-content media-body">
+                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
+                                    <span class="date">April 24, 2020</span>
+                                </div>
+                            </div>
+                            <div class="single-mini-post d-flex">
+                                <div class="post-thumb">
+                                    <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-4.jpg" alt="blog"></a>
+                                </div>
+                                <div class="post-content media-body">
+                                    <h5 class="post-title"><a href="blog-single-left-sidebar.html">This is Secound Post For XipBlog</a></h5>
+                                    <span class="date">April 24, 2020</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- sidebar widget -->
+
+                    <div class="sidebar-widget mt-30">
+                        <h4 class="sidebar-title">Popular Tags</h4>
+                        <div class="blog-sidebar-tags">
+                            <ul class="tag-list">
+                                <li><a href="#">New</a></li>
+                                <li><a href="#">Bags</a></li>
+                                <li><a href="#">Kids</a></li>
+                                <li><a href="#">Electronic</a></li>
+                                <li><a href="#">Shirts</a></li>
+                                <li><a href="#">Game</a></li>
+                                <li><a href="#">Camera</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- blog sidebar -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</section>
+
+<!--====== Blog Part Ends ======-->

@@ -9,7 +9,7 @@
 <h4>Blog</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +35,7 @@
             <div class="form-group">
                 <label class="control-label"> Photo or Video?</label>
 
-                <select id="select">
+                <select id="select" class="form-control">
                     <option selected value="0">Selected Option</option>
                     <option value="1">Video </option>
                     <option value="2">Photo</option>
@@ -65,7 +65,10 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/assets/ckeditor/ckeditor.js"></script>
 }
+
+
 @section ProductScript{
     <script>
         $("#select").change(function () {
@@ -88,5 +91,9 @@
                 $("#videoinput").val() = "";
             }
         })
+        CKEDITOR.replace('Description', {
+            language: 'en',
+            uiColor: '#9AB8F3'
+        });
     </script>
 }
