@@ -1,0 +1,171 @@
+﻿@model IEnumerable<BasketProduct>
+<!--====== Breadcrumb Part Start ======-->
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-route-controller="Home" asp-route-action="Index">Home</a></li>
+                <li class="breadcrumb-item active">Checkout</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+<!--====== Checkout Part Start ======-->
+@{
+    string Fullname = ViewBag.User.FullName;
+}
+<section class="checkout-area pt-10">
+    <form asp-controller="Sales" asp-action="Sales" method="post">
+
+        <div class="container-fluid custom-container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-7">
+                    <div class="checkout-form">
+                        <div class="billing-address mt-30">
+                            <h4 class="allup-title">Billing Address</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>First Name*</label>
+                                        <input type="text" placeholder="First Name" value="@Fullname" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>Last  Name*</label>
+                                        <input type="text" placeholder="Last Name" value="@Fullname" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>Email Address*</label>
+                                        <input type="text" placeholder="Email Address" value="@ViewBag.User.Email">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>Phone no*</label>
+                                        <input type="text" placeholder="Phone no">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="single-form">
+                                        <label>Address</label>
+                                        <input type="text" placeholder="Address Line 1">
+                                        <input type="text" placeholder="Address Line 2">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>Town/City*</label>
+                                        <input type="text" placeholder="Town/City">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>State*</label>
+                                        <input type="text" placeholder="State">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="single-form">
+                                        <label>Zip Code*</label>
+                                        <input type="text" placeholder="Zip Code">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-5">
+                    <div class="checkout-total-wrapper mt-30">
+                        <h4 class="allup-title">Cart Total</h4>
+                        <div class="checkout-total mt-30">
+                            <h4 class="title">Product  <span>Total</span></h4>
+                            <ul>
+                                @{
+                                    double Total = 0;
+                                }
+                                @foreach (var item in Model)
+                                {
+
+                                    double salePrice = 0;
+                                    double total;
+                                    if (item.Discount != 0)
+                                    {
+                                        salePrice = Convert.ToDouble(item.Price - ((item.Price) * (item.Discount) / 100));
+                                        total = salePrice * item.Count;
+
+                                    }
+                                    else
+                                    {
+                                        total = Convert.ToDouble(item.Count * item.Price);
+                                    }
+                                    Total += total;
+
+                                    <li>
+                                        <p class="total-value">@item.Name X @item.Count</p>
+                                        <p class="total-amount">€@total</p>
+                                    </li>
+                                }
+
+                            </ul>
+                            <div class="checkout-total-sub">
+                                <p class="total-value">Sub Total</p>
+                                <p class="total-amount">€@Total</p>
+                                
+                            </div>
+                            <div class="checkout-total-sub">
+                                <p class="total-value">Shipping Fee </p>
+                                <p class="total-amount">€00.00</p>
+                            </div>
+                            <h4 class="title mt-15">Product  <span>€@Total</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="checkout-payment-wrapper mt-30">
+                        <h4 class="allup-title">Payment Method</h4>
+                        <div class="checkout-payment mt-30">
+                            <ul>
+                                <li>
+                                    <div class="single-payment">
+                                        <div class="payment-radio">
+                                            <input type="radio" name="radio" id="check" checked="checked">
+                                            <label for="check"><span></span> Check Payment</label>
+
+                                            <div class="payment-details">
+                                                <p>Please send a Check to Store name with Store Street, Store Town, Store State, Store Postcode, Store Country.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" id="accept">
+                                        <label for="accept"></label>
+                                        <p>I’ve read and accept the terms & conditions</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="checkout-btn">
+                        <button class="main-btn main-btn-2" type="submit">Place Order</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+</section>
+
+<!--====== Checkout Part Ends ======-->

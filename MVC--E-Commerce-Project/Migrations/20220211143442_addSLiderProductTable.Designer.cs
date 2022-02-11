@@ -4,14 +4,16 @@ using MVC__E_Commerce_Project.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MVC__E_Commerce_Project.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20220211143442_addSLiderProductTable")]
+    partial class addSLiderProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -341,35 +343,6 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.HomeProductSlider", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("HomeProductSliders");
-                });
-
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Message", b =>
                 {
                     b.Property<int>("Id")
@@ -527,51 +500,6 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("ProductTags");
-                });
-
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Sales", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("SaleDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Total")
-                        .HasColumnType("float");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.SalesProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SalesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SalesId");
-
-                    b.ToTable("SalesProducts");
                 });
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Service", b =>
@@ -829,17 +757,6 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.HomeProductSlider", b =>
-                {
-                    b.HasOne("MVC__E_Commerce_Project.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Message", b =>
                 {
                     b.HasOne("MVC__E_Commerce_Project.Models.AppUser", "User")
@@ -915,34 +832,6 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Sales", b =>
-                {
-                    b.HasOne("MVC__E_Commerce_Project.Models.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.SalesProduct", b =>
-                {
-                    b.HasOne("MVC__E_Commerce_Project.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MVC__E_Commerce_Project.Models.Sales", "Sales")
-                        .WithMany("SalesProducts")
-                        .HasForeignKey("SalesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Sales");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1043,11 +932,6 @@ namespace MVC__E_Commerce_Project.Migrations
                     b.Navigation("ProductColors");
 
                     b.Navigation("ProductTags");
-                });
-
-            modelBuilder.Entity("MVC__E_Commerce_Project.Models.Sales", b =>
-                {
-                    b.Navigation("SalesProducts");
                 });
 
             modelBuilder.Entity("MVC__E_Commerce_Project.Models.Tag", b =>

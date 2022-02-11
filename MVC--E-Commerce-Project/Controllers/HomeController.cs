@@ -37,6 +37,11 @@ namespace MVC__E_Commerce_Project.Controllers
             homeVm.Blogs = blogs;
             homeVm.Products = products;
 
+            ViewBag.specialProduct = products.Where(x => x.Name == "S10" && x.Name == "Iphone X");
+            
+
+            ViewBag.Featured = products.Where(x => x.IsFeatured == true).OrderByDescending(x => x.Id).Take(8).ToList();
+
             ViewBag.newArrive = products.OrderByDescending(p => p.Id).Take(14).ToList();
 
             ViewBag.FeatCategories = categories.Where(c => c.IsFeatured == true);

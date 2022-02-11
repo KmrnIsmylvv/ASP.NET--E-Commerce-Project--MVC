@@ -35,6 +35,12 @@ namespace MVC__E_Commerce_Project.DAL
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogPhoto> BlogPhotos { get; set; }
         public DbSet<Comments> Comment { get; set; }
+        public DbSet<HomeProductSlider> HomeProductSliders{ get; set; }
+        public DbSet<Sales> Sales{ get; set; }
+        public DbSet<SalesProduct> SalesProducts{ get; set; }
+
+
+
 
 
         public IEnumerable<object> CategoryBrands { get; internal set; }

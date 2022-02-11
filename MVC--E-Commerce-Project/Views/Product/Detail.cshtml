@@ -1,0 +1,199 @@
+﻿@model Product
+<!--====== Breadcrumb Part Start ======-->
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="shop-left-sidebar.html">Shop</a></li>
+                <li class="breadcrumb-item active">Product Details</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+<!--====== Single Product Part Start ======-->
+
+<section class="single-product-page pt-20">
+    <div class="container-fluid custom-container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="single-product-image mt-30">
+                    <div class="product-single-image">
+                        @foreach (var item in Model.Images)
+                        {
+                            <div class="single-image">
+                                <img src="~/assets/images/product/@item.ImageUrl" alt="">
+                            </div>
+
+                        }
+
+                    </div>
+                    <div class="product-single-thumb-image">
+                        <ul class="product-single-thumb">
+                            @foreach (var item in Model.Images)
+                            {
+                                <li><img src="~/assets/images/product/@item.ImageUrl" alt="product"></li>
+                            }
+
+                        </ul>
+                    </div>
+                </div> <!-- single product image -->
+            </div>
+            <div class="col-lg-6">
+                <div class="single-product-content mt-30">
+                    <div class="tags d-flex">
+                        <span class="tag-title">Tags:</span>
+                        <ul class="tag-list media-body">
+                            @foreach (var item in ViewBag.tags)
+                            {
+                                <li><a href="#">@item.Tag.Name</a></li>
+                            }
+
+                        </ul>
+                    </div>
+                    <h2 class="product-title">@Model.Name</h2>
+                    <div class="review-rating d-flex flex-wrap">
+                        <ul class="rating">
+                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                            <li class="rating-on"><i class="fas fa-star"></i></li>
+                        </ul>
+                        <ul class="review-link">
+                            <li><a href="#">(255 Review)</a></li>
+                            <li><a href="#">Be Chill man</a></li>
+                        </ul>
+                    </div>
+                    <div class="product-price">
+                        @if (Model.Campaign.Discount == 0)
+                        {
+                            <span class="regular-price">€@Model.Price</span>
+
+                        }
+                        else
+                        {
+
+                            double salePrice = 0;
+                            salePrice = Convert.ToDouble(Model.Price - ((Model.Price) * (Model.Campaign.Discount) / 100));
+
+
+                            <span class="price-sale">€@Model.Price</span>
+                            <span class="regular-price">€@salePrice</span>
+                        }
+
+                    </div>
+                    <div class="product-basic-info">
+                        <div class="single-info">
+                            <span class="title">Ex Tax :</span>
+                            <span class="value">€@Model.ExTax</span>
+                        </div>
+                        <div class="single-info">
+                            <span class="title">Brand :</span>
+                            <span class="value"><a href="#">@Model.Brand.Name</a></span>
+                        </div>
+                        <div class="single-info">
+                            <span class="title"> Product Code :</span>
+                            <span class="value">@Model.ProductCode</span>
+                        </div>
+                        <div class="single-info">
+                            <span class="title"> Availability :</span>
+                            @if (Model.Availibility == true && @Model.Quantity != 0)
+                            {
+                                <span class="value">In stock </span>
+
+                            }
+                            else
+                            {
+                                <span class="value">No stock </span>
+
+                            }
+                        </div>
+                    </div>
+                    <p>@Model.Description</p>
+
+                    <div class="product-size-color-quantity">
+                        <div class="product-quantity mt-25">
+                            <h5 class="title">Quantity</h5>
+                            <div class="quantity mt-15 d-flex">
+                                <button type="button" class="sub" disabled><i class="fal fa-minus"></i></button>
+                                <input type="text" value="1" disabled />
+                                <button type="button" class="add" disabled><i class="fal fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="addcart">
+                        <button id="take" data-id="@Model.Id"><i class="icon ion-bag"></i> Add to cart</button>
+                    </div>
+                    <div class="product-wishlist-compare">
+                        <ul class="d-flex flex-wrap">
+                            <li><a href="#"><i class="fal fa-heart"></i> Add to wishlist</a></li>
+                            <li><a href="#"><i class="fal fa-repeat"></i> Add to compare</a></li>
+                        </ul>
+                    </div>
+                    <div class="product-share d-flex">
+                        <p>Share</p>
+                        <ul class="social media-body">
+                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-google"></i></a></li>
+                            <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="reassurance-block">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="single-reassurance d-flex">
+                                    <div class="reassurance-icon">
+                                        <img src="~/images/icon-1.png" alt="icon">
+                                    </div>
+                                    <div class="reassurance media-body">
+                                        <p>Security policy (edit with Customer reassurance module)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="single-reassurance d-flex">
+                                    <div class="reassurance-icon">
+                                        <img src="~/images/icon-2.png" alt="icon">
+                                    </div>
+                                    <div class="reassurance media-body">
+                                        <p>Delivery policy (edit with Customer reassurance module)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="single-reassurance d-flex">
+                                    <div class="reassurance-icon">
+                                        <img src="~/images/icon-3.png" alt="icon">
+                                    </div>
+                                    <div class="reassurance media-body">
+                                        <p>Return policy (edit with Customer reassurance module)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- single product content -->
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</section>
+
+@section Scripts{
+    <script>
+        $("#take").click(function (event) {
+            var id = $(this).attr("data-id")
+            $.ajax({
+                type: "get",
+                url: "/Basket/AddBasket?id=" + id,
+                success: function (res) { }
+            })
+        })
+    </script>
+}
+
+<!--====== Single Product Part Ends ======-->

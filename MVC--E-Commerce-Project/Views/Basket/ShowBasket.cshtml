@@ -1,0 +1,240 @@
+﻿@model IEnumerable<BasketProduct>
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Cart</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+<!--====== Cart Part Start ======-->
+
+<section class="cart-page pt-10">
+    <div class="container-fluid custom-container">
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="shopping-cart mt-25">
+                    <h4 class="allup-title">Shopping Cart</h4>
+
+                    <div class="shopping-cart-table table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="image">Image</th>
+                                    <th class="product">Product</th>
+                                    <th class="price">Price</th>
+                                    <th class="quantity">Quantity</th>
+                                    <th class="total">Total</th>
+                                    <th class="delete">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ double TOTAL = 0;}
+
+                                @foreach (var item in Model)
+                                {
+                                    if (ViewBag.userid == item.UserId)
+                                    {
+                                        <tr id="@item.Id">
+                                            <td>
+                                                <div class="product-image">
+                                                    <img src="~/assets/images/product/@item.PhotoUrl" alt="cart" style="width:100px;height:100px;">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="product-title">
+                                                    <h4 class="title"><a href="single-product.html">@item.Name</a></h4>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @{
+                                                    double salePrice = 0;
+                                                    double total;
+                                                    @if (item.Discount != 0)
+                                                    {
+                                                        salePrice = Convert.ToDouble(item.Price - ((item.Price) * (item.Discount) / 100));
+                                                        total = salePrice * item.Count;
+
+                                                    }
+                                                    else
+                                                    {
+                                                        total = Convert.ToDouble(item.Count * item.Price);
+                                                    }
+                                                    TOTAL += total;
+                                                    //unique id
+                                                    var price = $"{ item.Id}" + "price";
+                                                    var amount = $"{item.Id}" + "total";
+                                                    var count = $"{item.Id}" + "count";
+                                                }
+                                                <div class="product-price">
+                                                    @if (item.Discount == 0)
+                                                    {
+                                                        <span class="price">€<span class="price" id="@price">@item.Price</span></span>
+                                                    }
+                                                    @if (item.Discount != 0)
+                                                    {
+                                                        <span class="price">€<span class="price" id="@price">@salePrice</span></span>
+
+                                                    }
+                                                </div>
+                                            </td>
+                                            <td>
+
+                                                <div class="product-quantity">
+                                                    <div class="quantity mt-15 d-flex">
+                                                        <button type="button" class="sub" data-id="@item.Id"><i class="fal fa-minus"></i></button>
+                                                        <input type="text" class="count" id="@count" value="@item.Count" />
+                                                        <button type="button" class="add" data-id="@item.Id"><i class="fal fa-plus"></i></button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="product-total">
+                                                    <span class="total-amount">€<span id="@amount">@total</span></span>
+                                                </div>
+
+                                            </td>
+
+                                            <td>
+
+                                                <div class="product-delete">
+                                                    <a href="#" class="delete" data-id="@item.Id"><i class="fal fa-trash-alt"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="cart-btn text-right">
+                        <a class="main-btn" asp-controller="Home" asp-action="Index">Update cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="row">
+                    <div class="col-xl-12 col-md-6">
+                        <div class="cart-coupon mt-30">
+                            <h5 class="title">Discount Coupon Code</h5>
+                            <form action="#">
+                                <div class="single-form coupon-form d-flex flex-wrap">
+                                    <input type="text" placeholder="Coupon Code">
+                                    <button class="main-btn">Apply Coupon</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-6">
+                        <div class="cart-total mt-30">
+                            <div class="sub-total">
+                                <div class="single-total">
+                                    <span class="cart-value">Subtotal</span>
+                                    <span class="cart-amount">€<span id="fullamount">@TOTAL</span></span>
+                                </div>
+                                <div class="single-total">
+                                    <span class="cart-value">Shipping Cost</span>
+                                    <span class="cart-amount">€3.90</span>
+                                </div>
+                            </div>
+                            <div class="total">
+
+                                <div class="single-total">
+                                    <span class="cart-value">Taxes</span>
+                                    <span class="cart-amount">€0.00</span>
+                                </div>
+                            </div>
+                            <div class="cart-total-btn text-right">
+                                <a class="main-btn" asp-controller="Sales" asp-action="Index">Proceed to Checkout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+        $(".sub").click(function (event) {
+            var dataO = {
+                id: $(this).attr("data-id"),
+                change: $(this).attr("class")
+            };
+            var Id = $(this).attr("data-id")
+            $.ajax({
+                type: "POST",
+                url: "BasketCount",
+                data: dataO,
+                success: function (res) {
+                    if (res != "error") {
+                        $(`${Id}count`).val(res)
+                        var price = parseFloat($(`#${Id}price`).text());
+                        var total = parseFloat($(`#${Id}total`).text());
+
+                        var TOTAL = parseFloat($("#fullamount").text());
+                        var fulltotal = total - price;
+                        var fullTOTAL = TOTAL - price;
+
+                        $(`#${Id}total`).text(fulltotal);
+                        $("#fullamount").text(fullTOTAL);
+
+                    }
+                    else {
+                        alert("0 sayda mal alina bilmez");
+                    }
+                }
+            });
+        })
+        $(".add").click(function () {
+            var dataO = {
+                id: $(this).attr("data-id"),
+                change: $(this).attr("class")
+            };
+            var Id = $(this).attr("data-id")
+            $.ajax({
+                type: "POST",
+                url: "BasketCount",
+                data: dataO,
+                success: function (res) {
+                    if (res != "error") {
+                        $(`${Id}count`).val(res)
+                        var price = parseFloat($(`#${Id}price`).text());
+                        var TOTAL = parseFloat($("#fullamount").text());
+                        var total = parseFloat($(`#${Id}total`).text());
+                        var fulltotal = total + price;
+                        var fullTOTAL = TOTAL + price;
+                        $(`#${Id}total`).text(fulltotal);
+                        $("#fullamount").text(fullTOTAL);
+                    }
+                    else {
+                        alert("Bu productan cox alina bilmez");
+                    }
+
+                }
+            });
+
+        })
+
+        $(".delete").click(function () {
+            var id = $(this).attr("data-id");
+            $.ajax({
+                type: "get",
+                url: "BasketRemove?id=" + parseInt(id),
+                success: function (res) {
+                    $(`#${id}`).remove()
+                }
+            })
+        })
+    </script>
+
+}
