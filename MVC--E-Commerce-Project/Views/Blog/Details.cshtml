@@ -75,63 +75,46 @@
                         </div>
                     </div>
                 </div> <!-- blog single posts -->
-                
+
                 <div class="blog-single-related-post pt-50">
                     <div class="section-title text-center">
                         <h2 class="title">Related Post</h2>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="single-blog-post blog-grid-post related-post mt-30">
-                                <div class="blog-post-media">
-                                    <div class="blog-image">
-                                        <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-2.jpg" alt="blog"></a>
+                        @foreach (var item in ViewBag.relatedPosts)
+                        {
+                            <div class="col-md-4">
+                                <div class="single-blog-post blog-grid-post related-post mt-30">
+                                    <div class="blog-post-media">
+                                        <div class="blog-image">
+                                            @if (item.BlogPhotos[0].PhotoUrl != null)
+                                            {
+                                                <div class="blog-image">
+                                                    <a asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id"><img src="~/assets/images/@item.BlogPhotos[0].PhotoUrl" alt="blog"></a>
+                                                </div>
+                                            }
+                                            else if (item.BlogPhotos[0].VideoUrl != null)
+                                            {
+                                                <div class="blog-post-video">
+                                                    <a asp-controller="Blog" asp-action="Details" asp-route-id="@item.Id"> <iframe src="@item.BlogPhotos[0].VideoUrl" allow="autoplay; encrypted-media" allowfullscreen="" width="221" height="163"></iframe></a>
+                                                </div>
+                                            }
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="blog-post-content">
-                                    <h4 class="blog-title"><a href="blog-single-left-sidebar.html">This is Third Post For XipBlog</a></h4>
-                                    <ul class="blog-meta">
-                                        <li><a href="#"><i class="fas fa-user-circle"></i> Admin</a></li>
-                                        <li><a href="#"><i class="fas fa-calendar-alt"></i> 24 April, 2020</a></li>
-                                    </ul>
-                                </div>
-                            </div> <!-- single blog post -->
-                        </div>
-                        <div class="col-md-4">
-                            <div class="single-blog-post blog-grid-post related-post mt-30">
-                                <div class="blog-post-media">
-                                    <div class="blog-image">
-                                        <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-3.jpg" alt="blog"></a>
+                                    <div class="blog-post-content">
+                                        <h4 class="blog-title"><a href="blog-single-left-sidebar.html">@item.Title</a></h4>
+                                        <ul class="blog-meta">
+                                            <li><a href="#"><i class="fas fa-user-circle"></i>@item.User.FullName</a></li>
+                                            <li><a href="#"><i class="fas fa-calendar-alt"></i>@item.Date</a></li>
+                                        </ul>
                                     </div>
-                                </div>
-                                <div class="blog-post-content">
-                                    <h4 class="blog-title"><a href="blog-single-left-sidebar.html">This is Third Post For XipBlog</a></h4>
-                                    <ul class="blog-meta">
-                                        <li><a href="#"><i class="fas fa-user-circle"></i> Admin</a></li>
-                                        <li><a href="#"><i class="fas fa-calendar-alt"></i> 24 April, 2020</a></li>
-                                    </ul>
-                                </div>
-                            </div> <!-- single blog post -->
-                        </div>
-                        <div class="col-md-4">
-                            <div class="single-blog-post blog-grid-post related-post mt-30">
-                                <div class="blog-post-media">
-                                    <div class="blog-image">
-                                        <a href="blog-single-left-sidebar.html"><img src="assets/images/blog-4.jpg" alt="blog"></a>
-                                    </div>
-                                </div>
-                                <div class="blog-post-content">
-                                    <h4 class="blog-title"><a href="blog-single-left-sidebar.html">This is Third Post For XipBlog</a></h4>
-                                    <ul class="blog-meta">
-                                        <li><a href="#"><i class="fas fa-user-circle"></i> Admin</a></li>
-                                        <li><a href="#"><i class="fas fa-calendar-alt"></i> 24 April, 2020</a></li>
-                                    </ul>
-                                </div>
-                            </div> <!-- single blog post -->
-                        </div>
+                                </div> <!-- single blog post -->
+                            </div>
+                        }
+
                     </div>
                 </div>
-               
+
                 <div class="blog-single-comment">
                     <div class="blog-comments">
                         <h4 class="comment-title">@ViewBag.comment.Count Comments</h4>

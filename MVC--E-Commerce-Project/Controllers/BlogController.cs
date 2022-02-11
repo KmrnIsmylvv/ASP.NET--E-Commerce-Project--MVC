@@ -63,6 +63,17 @@ namespace MVC__E_Commerce_Project.Controllers
                 .Take(4)
                 .ToList();
 
+            // RELATED POSTS
+            var product = _context.ProductTags.Include(p => p.Tag).ToList();
+            var relatedPosts = _context.Blogs
+                .Include(b=>b.BlogPhotos)
+                .Include(b => b.Product)
+                .ThenInclude(p => p.ProductTags)
+                .ThenInclude(r=>r.Tag)
+                .ToList();
+
+            ViewBag.relatedPosts = relatedPosts.Where(r => r.Product.ProductTags[0].TagId == product[0].TagId);
+
             ViewBag.photos = photos;
             ViewBag.RecentPosts = recentPosts;
             ViewBag.user = user.FullName;
