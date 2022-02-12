@@ -13,7 +13,6 @@ namespace MVC__E_Commerce_Project.ViewModels
         public List<Category> categories { get; set; }
         public List<Blog> Blogs { get; set; }
         public List<Product> Products { get; set; }
-
-
+        public List<HomeProductSlider> HomeProductSliders { get; set; }
     }
 }

@@ -145,7 +145,7 @@ namespace E_commerce_BackFinal.Controllers
 
             }
             Response.Cookies.Append("basketcookie", JsonConvert.SerializeObject(basketProducts), new CookieOptions { MaxAge = TimeSpan.FromDays(14) });
-            return Ok();
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Index()

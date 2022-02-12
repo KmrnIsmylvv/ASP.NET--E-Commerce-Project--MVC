@@ -1,0 +1,212 @@
+﻿@model IEnumerable<Product>
+
+<div class="breadcrumb-area">
+    <div class="container-fluid custom-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Shop</li>
+            </ol>
+        </nav>
+    </div> <!-- container -->
+</div>
+
+<!--====== Breadcrumb Part Ends ======-->
+<!--====== Shop Left sidebar Part Start ======-->
+
+<section class="shop-area pt-20">
+    <div class="container-fluid custom-container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shop-header">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <div class="shop-header-left d-flex flex-wrap align-items-center">
+                                <div class="shop-header-icon">
+                                    <ul class="nav" id="myTab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a id="grid-tab" data-toggle="tab" href="#grid" role="tab" aria-controls="grid" aria-selected="false"><i class="icon ion-grid show_grid"></i></a>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="active" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="true"><i class="icon ion-android-menu show_list"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="shop-header-message">
+                                    <p>Showing 1 to 9 of 15 (2 Pages)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="shop-header-right d-flex flex-wrap align-items-center justify-content-sm-end">
+                                <div class="shop-header-select d-flex flex-wrap">
+                                    <span class="select-title">Show:</span>
+                                    <select>
+                                        <option value="1">10</option>
+                                        <option value="2">20</option>
+                                        <option value="3">30</option>
+                                        <option value="4">40</option>
+                                    </select>
+                                </div>
+                                <div class="shop-header-select">
+                                    <span class="select-title">Sort By:</span>
+                                    <select>
+                                        <option value="1">Default</option>
+                                        <option value="2">Name (A-Z)</option>
+                                        <option value="3">Price (min - max)</option>
+                                        <option value="4">Color</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- row -->
+                </div> <!-- shop header -->
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade" id="grid" role="tabpanel" aria-labelledby="grid-tab">
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                <div class="product-col col-md-4 col-sm-6">
+                                    <div class="single-product mt-30">
+                                        <div class="product-image">
+                                            <a asp-controller="Product" asp-action="Detail" asp-route-id="@item.Id">
+                                                <img class="first-image" src="~/assets/images/product/@item.Images[0].ImageUrl" alt="product">
+                                                @if (item.Images.Count > 1)
+                                                {
+                                                    <img class="second-image" src="~/assets/images/product/@item.Images[1].ImageUrl" alt="product">
+                                                }
+
+                                            </a>
+                                            <ul class="product-meta">
+                                                <li><a asp-controller="Basket" asp-action="AddBasket" asp-route-id="@item.Id"><i class="icon ion-bag"></i></a></li>
+                                                <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
+                                                <li><a href="#"><i class="icon ion-android-options"></i></a></li>
+                                                <li><a asp-controller="Product" asp-action="Detail" asp-route-id="@item.Id"><i class="icon ion-android-open"></i></a></li>
+                                            </ul>
+                                            @if (item.Campaign.Discount != 0)
+                                            {
+                                                <span class="discount-product">-@item.Campaign.Discount%</span>
+
+                                            }
+                                        </div>
+                                        <div class="product-content">
+                                            <h4 class="product-title"><a asp-controller="Product" asp-action="Detail" asp-route-id="@item.Id">@item.Name</a></h4>
+                                            <ul class="product-rating">
+                                                <li class="rating-on"><i class="fas fa-star"></i></li>
+                                                <li class="rating-on"><i class="fas fa-star"></i></li>
+                                                <li class="rating-on"><i class="fas fa-star"></i></li>
+                                                <li class="rating-on"><i class="fas fa-star"></i></li>
+                                                <li class="rating-on"><i class="fas fa-star"></i></li>
+                                            </ul>
+                                            <div class="product-price">
+                                                @if (item.Campaign.Discount == 0)
+                                                {
+                                                    <span class="regular-price">€@item.Price</span>
+
+                                                }
+                                                else
+                                                {
+
+                                                    double salePrice = 0;
+                                                    salePrice = Convert.ToDouble(item.Price - ((item.Price) * (item.Campaign.Discount) / 100));
+
+
+                                                    <span class="price-sale">€@item.Price</span>
+                                                    <span class="regular-price">€@salePrice</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div> <!-- single product -->
+                                </div>
+
+
+                            }
+
+                        </div> <!-- row -->
+                    </div>
+                    <div class="tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="list-tab">
+                        @foreach (var item in Model)
+                        {
+                            <div class="single-product-list mt-30">
+                                <div class="row">
+                                    <div class="col-sm-5 col-xl-3">
+                                        <div class="product-image">
+                                            <a href="single-product.html">
+                                                <img class="first-image" src="~/assets/images/product/@item.Images[0].ImageUrl" alt="product">
+                                                @if (item.Images.Count > 1)
+                                                {
+                                                    <img class="second-image" src="~/assets/images/product/@item.Images[1].ImageUrl" alt="product">
+                                                }
+                                            </a>
+                                            <span class="discount-product">-12%</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7 col-xl-9">
+                                        <div class="product-content">
+                                            <ul class="product-rating">
+                                                <li class="rating-on"><i class="fas fa-star"></i></li>
+                                                <li class="rating-on"><i class="fas fa-star"></i></li>
+                                                <li class="rating-on"><i class="fas fa-star"></i></li>
+                                                <li class="rating-on"><i class="fas fa-star"></i></li>
+                                                <li class="rating-on"><i class="fas fa-star"></i></li>
+                                            </ul>
+                                            <h4 class="product-title"><a href="single-product.html">@item.Name</a></h4>
+                                            @if (item.Availibility == true && @item.Quantity != 0)
+                                            {
+                                                <span class="availability">Availability: @item.Quantity In Stock</span>
+
+                                            }
+                                            else
+                                            {
+                                                <span class="availability" style="background-color:red;">Availability:NO Stock</span>
+
+                                            }
+                                            <div class="product-price">
+                                                @if (item.Campaign.Discount == 0)
+                                                {
+                                                    <span class="regular-price">€@item.Price</span>
+
+                                                }
+                                                else
+                                                {
+
+                                                    double salePrice = 0;
+                                                    salePrice = Convert.ToDouble(item.Price - ((item.Price) * (item.Campaign.Discount) / 100));
+
+
+                                                    <span class="price-sale">€@item.Price</span>
+                                                    <span class="regular-price">€@salePrice</span>
+                                                }
+                                            </div>
+                                            <p>@item.Description </p>
+                                            <ul class="product-meta">
+                                                <li><a asp-controller="Basket" asp-action="AddBasket" asp-route-id="@item.Id"><i class="icon ion-bag"></i></a></li>
+                                                <li><a href="#"><i class="icon ion-android-favorite-outline"></i></a></li>
+                                                <li><a href="#"><i class="icon ion-android-options"></i></a></li>
+                                                <li><a asp-controller="Product" asp-action="Detail" asp-route-id="@item.Id"><i class="icon ion-android-open"></i></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!-- single product List -->
+
+
+                        }
+
+                    </div>
+                </div> <!-- Tab Content -->
+
+
+                <ul class="pagination justify-content-center mt-30">
+                    <li><a href="#"><i class="fal fa-chevron-left"></i></a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#"><i class="fal fa-chevron-right"></i></a></li>
+                </ul>
+            </div>
+        </div> <!-- row -->
+    </div> <!-- container -->
+</section>
+
+<!--====== Shop Left sidebar Part Ends ======-->

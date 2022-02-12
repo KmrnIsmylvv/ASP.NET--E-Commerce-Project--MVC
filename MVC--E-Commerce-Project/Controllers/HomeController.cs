@@ -23,11 +23,15 @@ namespace MVC__E_Commerce_Project.Controllers
             List<CompanySlider> companySliders = _context.CompanySliders.ToList();
             List<Service> services = _context.Services.ToList();
             List<Category> categories = _context.Categories.Where(c => c.IsMain == true).ToList();
-            List<Blog> blogs= _context.Blogs.ToList();
+            List<Blog> blogs = _context.Blogs.ToList();
             List<Product> products = _context.Products.Include(p => p.Campaign).Include(p => p.Images).Include(p => p.Brand).ToList();
+            List<HomeProductSlider> homeProductSliders = _context.HomeProductSliders.Include(x => x.Product).ToList();
 
             var photos = _context.BlogPhotos.ToList();
             ViewBag.photos = photos;
+
+            var productPhotos = _context.ProductImages.ToList();
+            ViewBag.productPhotos = productPhotos;
 
 
             HomeVm homeVm = new HomeVm();
@@ -36,16 +40,17 @@ namespace MVC__E_Commerce_Project.Controllers
             homeVm.categories = categories;
             homeVm.Blogs = blogs;
             homeVm.Products = products;
+            homeVm.HomeProductSliders = homeProductSliders;
 
-            ViewBag.specialProduct = products.Where(x => x.Name == "S10" && x.Name == "Iphone X");
-            
+            ViewBag.specialProduct = products.Where(x => x.Name == "S10" || x.Name == "Iphone X");
+
 
             ViewBag.Featured = products.Where(x => x.IsFeatured == true).OrderByDescending(x => x.Id).Take(8).ToList();
 
             ViewBag.newArrive = products.OrderByDescending(p => p.Id).Take(14).ToList();
 
             ViewBag.FeatCategories = categories.Where(c => c.IsFeatured == true);
-            
+
             return View(homeVm);
         }
     }

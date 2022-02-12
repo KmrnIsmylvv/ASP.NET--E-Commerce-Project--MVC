@@ -8,36 +8,24 @@
 <!--====== Slider Part Start ======-->
 
 <section class="slider-area slider-active">
-    <div class="single-slider">
-        <div class="slider-image">
-            <img src="assets/images/slider-1.jpg" alt="slider">
-        </div>
-        <div class="slider-content-wrapper">
-            <div class="container-fluid custom-container">
-                <div class="slider-content">
-                    <h4 data-animation="fadeInDown" data-delay="0.5s" class="sub-title">Save $120 when you buy</h4>
-                    <h1 data-animation="fadeInLeft" data-delay="0.5s" class="main-title "><span>2020 Virtual Reality </span> Fulldive VR.</h1>
-                    <p data-animation="fadeInRightBig" data-delay="0.5s">Explore and immerse in exciting 360 content with Fulldive’s all-in-one virtual reality platform</p>
-                    <a data-animation="zoomIn" data-delay="0.5s" class="main-btn " href="single-product.html">Shop Now</a>
+    @foreach (var item in Model.HomeProductSliders)
+    {
+        <div class="single-slider">
+            <div class="slider-image">
+                <img src="~/assets/images/@item.ImageUrl" alt="slider">
+            </div>
+            <div class="slider-content-wrapper">
+                <div class="container-fluid custom-container">
+                    <div class="slider-content">
+                        <h4 data-animation="fadeInDown" data-delay="0.5s" class="sub-title">@item.Title</h4>
+                        <h1 data-animation="fadeInLeft" data-delay="0.5s" class="main-title "><span>@item.Description </span>@item.Product.Name</h1>
+                        <p data-animation="fadeInRightBig" data-delay="0.5s">@item.Product.Description</p>
+                        <a data-animation="zoomIn" data-delay="0.5s" class="main-btn " asp-controller="Product" asp-action="Detail" asp-route-id="@item.Product.Id">Shop Now</a>
+                    </div>
                 </div>
-            </div> <!-- container -->
+            </div>
         </div>
-    </div> <!-- single slider -->
-    <div class="single-slider">
-        <div class="slider-image">
-            <img src="assets/images/slider-2.jpg" alt="slider">
-        </div>
-        <div class="slider-content-wrapper">
-            <div class="container-fluid custom-container">
-                <div class="slider-content">
-                    <h4 data-animation="fadeInDown" data-delay="0.5s" class="sub-title">Save $120 when you buy</h4>
-                    <h1 data-animation="fadeInLeft" data-delay="0.5s" class="main-title "><span>4K HDR Smart TV 43 </span> Sony Bravia.</h1>
-                    <p data-animation="fadeInRightBig" data-delay="0.5s">Explore and immerse in exciting 360 content with Fulldive’s all-in-one virtual reality platform</p>
-                    <a data-animation="zoomIn" data-delay="0.5s" class="main-btn " href="single-product.html">Shop Now</a>
-                </div>
-            </div> <!-- container -->
-        </div>
-    </div> <!-- single slider -->
+    }
 </section>
 
 <!--====== Slider Part Ends ======-->
@@ -689,86 +677,7 @@
     <div class="container-fluid custom-container">
         <div class="special-products-active">
             <div class="special-products-wrapper">
-                <div class="row">
 
-                    <div class="col-lg-6">
-                        <div class="special-products-gallery d-flex mt-50">
-                            @foreach (var item in ViewBag.specialProduct)
-                            {
-                                @foreach (var photo in ViewBag.photos)
-                                {
-                                    @if (photo.ProductId == item.Id)
-                                    {
-                                        <div class="products-gallery-thumb">
-                                            <ul class="products-thumb">
-                                                <li><img src="~/assets/images/@photo.ImageUrl" alt="Products Thumb"></li>
-                                            </ul>
-                                        </div> <!-- products gallery thumb -->
-                                        <div class="products-gallery-image">
-                                            <div class="single-products-image">
-                                                <a href="#">
-                                                    <img src="assets/images/@photo.ImageUrl" alt="products">
-                                                </a>
-                                            </div>
-                                        </div> <!-- products gallery image -->
-                                    }
-                                }
-
-                                <!-- special products gallery -->
-                            }
-                        </div>
-
-                        <div class="col-lg-6">
-                            @foreach (var item in ViewBag.specialProduct)
-                            {
-                                <div class="special-products-countdown mt-50">
-                                    <div class="products-countdown-wrapper">
-                                        <h2 class="special-title">Deal of the week</h2>
-                                        <h3 class="products-title"><a href="#">@item.Title</a></h3>
-                                        <div class="products-rating">
-                                            <ul>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                                <li><i class="fas fa-star"></i></li>
-                                            </ul>
-                                        </div>
-
-                                        <div data-countdown="2021/12/19"></div>
-
-                                        @{
-                                            double salePrice = 0;
-                                            @if (item.Campaign.Discount != 0)
-                                            {
-                                                salePrice = Convert.ToDouble(item.Price - ((item.Price) * (item.Campaign.Discount) / 100));
-                                            }
-
-                                        }
-                                        <div class="product-price-and-cart d-sm-flex align-items-center">
-                                            <div class="product-price">
-                                                @if (item.Campaign.Discount == 0)
-                                                {
-                                                    <span class="price-sale">€@item.Price</span>
-                                                }
-                                                @if (item.Campaign.Discount != 0)
-                                                {
-                                                    <span class="regular-price ">€@item.Price</span>
-                                                    <span class="price-sale">€@salePrice</span>
-                                                }
-                                            </div>
-                                            <div class="product-cart">
-                                                <a class="main-btn main-btn-2" asp-controller="Basket" asp-action="AddBasket">Add to cart</a>
-                                            </div>
-                                        </div>
-                                    </div> <!-- special products countdown -->
-                                </div>
-                            }<!-- special products countdown -->
-                        </div>
-
-
-                    </div> <!-- row -->
-                </div> <!-- special products wrapper -->
                 <div class="special-products-wrapper">
                     <div class="row">
                         <div class="col-lg-6">
